@@ -113,8 +113,8 @@ export const extractMediaFromHistory = (historyItem: any, mediaType: 'audio' | '
           type: audio.type
         };
       }
-    } else if (mediaType === 'video' && nodeOutputs.gifs) {
-      const videoFiles = nodeOutputs.gifs;
+    } else if (mediaType === 'video' && nodeOutputs.videos) {
+      const videoFiles = nodeOutputs.videos;
       if (videoFiles.length > 0) {
         const video = videoFiles[0];
         return {

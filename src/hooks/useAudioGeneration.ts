@@ -28,7 +28,7 @@ export const useAudioGeneration = () => {
       const workflow = createAudioWorkflow(script, voiceId);
       
       // Enviar la petición a ComfyUI
-      const response = await fetch('/prompt', {
+      const response = await fetch('http://0.0.0.0:8188/prompt', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

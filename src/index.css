@@ -2,38 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ComfyUI App Design System - Creative & Modern */
+/* HUB de HISTORIAS INFINITAS - Space-themed Design System */
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
+    --background: 220 100% 4%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
+    --card: 220 50% 8%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 220 50% 8%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263 70% 50%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 263 70% 60%;
+    --primary: 217 91% 59%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 91% 70%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 45 93% 47%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 220 30% 15%;
+    --muted-foreground: 220 15% 65%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 280 100% 70%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 263 70% 50%;
+    --border: 220 30% 20%;
+    --input: 220 30% 15%;
+    --ring: 217 91% 59%;
 
     --success: 142 76% 36%;
     --success-foreground: 0 0% 98%;
@@ -41,22 +41,24 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 98%;
 
-    --audio-primary: 217 91% 60%;
-    --audio-secondary: 217 91% 70%;
+    --voice-primary: 217 91% 59%;
+    --voice-secondary: 217 91% 70%;
 
-    --video-primary: 271 81% 56%;
-    --video-secondary: 271 81% 66%;
+    --story-primary: 280 100% 70%;
+    --story-secondary: 280 100% 80%;
 
-    /* Gradients */
+    /* Space-themed Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-audio: linear-gradient(135deg, hsl(var(--audio-primary)), hsl(var(--audio-secondary)));
-    --gradient-video: linear-gradient(135deg, hsl(var(--video-primary)), hsl(var(--video-secondary)));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 46%));
+    --gradient-voice: linear-gradient(135deg, hsl(var(--voice-primary)), hsl(var(--voice-secondary)));
+    --gradient-story: linear-gradient(135deg, hsl(var(--story-primary)), hsl(var(--story-secondary)));
+    --gradient-space: linear-gradient(135deg, hsl(220 100% 4%), hsl(220 50% 8%));
+    --gradient-magic: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
 
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
-    --shadow-audio: 0 10px 30px hsl(var(--audio-primary) / 0.3);
-    --shadow-video: 0 10px 30px hsl(var(--video-primary) / 0.3);
+    /* Magical Shadows */
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
+    --shadow-voice: 0 10px 30px hsl(var(--voice-primary) / 0.3);
+    --shadow-story: 0 10px 30px hsl(var(--story-primary) / 0.3);
+    --shadow-magic: 0 0 60px hsl(var(--accent) / 0.2);
 
     --radius: 0.75rem;
 

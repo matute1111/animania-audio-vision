@@ -43,10 +43,10 @@ export const VideoSection = ({
           <div className="p-3 bg-muted rounded-lg">
             <Video className="w-6 h-6 text-muted-foreground" />
           </div>
-          <h2 className="text-2xl font-bold text-muted-foreground">2. Animar Imagen 🎬</h2>
+          <h2 className="text-2xl font-bold text-muted-foreground">2. Dar Vida a la Historia 🎬</h2>
         </div>
         <p className="text-muted-foreground">
-          Primero genera el audio para poder animar una imagen
+          Primero crea la voz del personaje para poder dar vida a tu historia
         </p>
       </div>
     );
@@ -55,16 +55,16 @@ export const VideoSection = ({
   return (
     <div className="bg-card border border-border rounded-xl p-8 space-y-6 animate-slide-up">
       <div className="flex items-center gap-3">
-        <div className="p-3 bg-gradient-video rounded-lg">
+        <div className="p-3 bg-gradient-story rounded-lg">
           <Video className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-foreground">2. Animar Imagen 🎬</h2>
+        <h2 className="text-2xl font-bold text-foreground">2. Dar Vida a la Historia 🎬</h2>
       </div>
 
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
-            Seleccionar Imagen
+            Imagen del Personaje
           </label>
           
           <input
@@ -97,9 +97,9 @@ export const VideoSection = ({
               <div className="space-y-3">
                 <Upload className="w-12 h-12 text-muted-foreground mx-auto group-hover:text-primary transition-colors" />
                 <div>
-                  <p className="font-medium text-foreground">Subir Imagen</p>
+                  <p className="font-medium text-foreground">Subir Imagen del Personaje</p>
                   <p className="text-sm text-muted-foreground">
-                    Haz clic o arrastra una imagen aquí
+                    Sube la imagen que cobrará vida
                   </p>
                 </div>
                 <p className="text-xs text-muted-foreground">
@@ -115,26 +115,26 @@ export const VideoSection = ({
         <Button
           onClick={onAnimateImage}
           disabled={!imageFile || loading}
-          variant="video"
+          variant="story"
           size="lg"
           className="w-full"
         >
           {loading ? (
             <>
               <LoadingSpinner size="sm" className="text-white" />
-              Animando Imagen...
+              Dando Vida a la Historia...
             </>
           ) : (
             <>
               <Video className="w-5 h-5" />
-              Animar Imagen
+              Dar Vida a la Historia
             </>
           )}
         </Button>
 
         {videoSrc && (
           <div className="mt-6 p-4 bg-muted/50 rounded-lg border border-border">
-            <h3 className="font-medium text-foreground mb-3">Video Animado Generado</h3>
+            <h3 className="font-medium text-foreground mb-3">Tu Historia Ha Cobrado Vida</h3>
             <video
               src={videoSrc}
               controls

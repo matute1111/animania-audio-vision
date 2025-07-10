@@ -61,13 +61,13 @@ export default {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))'
 				},
-				audio: {
-					primary: 'hsl(var(--audio-primary))',
-					secondary: 'hsl(var(--audio-secondary))'
+				voice: {
+					primary: 'hsl(var(--voice-primary))',
+					secondary: 'hsl(var(--voice-secondary))'
 				},
-				video: {
-					primary: 'hsl(var(--video-primary))',
-					secondary: 'hsl(var(--video-secondary))'
+				story: {
+					primary: 'hsl(var(--story-primary))',
+					secondary: 'hsl(var(--story-secondary))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
@@ -128,9 +128,11 @@ export default {
 				'slide-up': 'slide-up 0.5s ease-out'
 			},
 			backgroundImage: {
-				'gradient-audio': 'var(--gradient-audio)',
-				'gradient-video': 'var(--gradient-video)',
+				'gradient-voice': 'var(--gradient-voice)',
+				'gradient-story': 'var(--gradient-story)',
 				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-space': 'var(--gradient-space)',
+				'gradient-magic': 'var(--gradient-magic)',
 				'gradient-success': 'var(--gradient-success)'
 			}
 		}

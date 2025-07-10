@@ -18,8 +18,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        audio: "bg-gradient-audio text-white hover:opacity-90 shadow-lg hover:shadow-xl transform hover:scale-105",
-        video: "bg-gradient-video text-white hover:opacity-90 shadow-lg hover:shadow-xl transform hover:scale-105",
+        voice: "bg-gradient-voice text-white hover:opacity-90 shadow-lg hover:shadow-xl transform hover:scale-105",
+        story: "bg-gradient-story text-white hover:opacity-90 shadow-lg hover:shadow-xl transform hover:scale-105",
         success: "bg-gradient-success text-success-foreground hover:opacity-90 shadow-lg hover:shadow-xl",
       },
       size: {

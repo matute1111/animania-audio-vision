@@ -2,7 +2,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AudioSection } from "@/components/AudioSection";
 import { VideoSection } from "@/components/VideoSection";
-import backgroundPattern from "@/assets/background-pattern.jpg";
+import spaceBanner from "@/assets/space-banner.jpg";
+import logoHistoriasInfinitas from "@/assets/logo-historias-infinitas.png";
 import { 
   toBase64, 
   createAudioWorkflow, 
@@ -169,30 +170,30 @@ export const ComfyUIApp = () => {
     <div 
       className="min-h-screen bg-background relative"
       style={{
-        backgroundImage: `url(${backgroundPattern})`,
+        backgroundImage: `url(${spaceBanner})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
       }}
     >
-      <div className="absolute inset-0 bg-background/90 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-primary rounded-xl shadow-lg animate-glow-pulse">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10 9 10s9-4.45 9-10V7L12 2z"/>
-              </svg>
-            </div>
+          <div className="mb-8">
+            <img 
+              src={logoHistoriasInfinitas} 
+              alt="Historias Infinitas Logo" 
+              className="mx-auto h-32 w-auto drop-shadow-2xl"
+            />
           </div>
-          <h1 className="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-            ComfyUI Audio & Video Generator
+          <h1 className="text-6xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-6">
+            HUB de HISTORIAS INFINITAS
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Genera audio profesional con <span className="text-audio-primary font-semibold">ElevenLabs</span> y 
-            crea videos animados impresionantes usando <span className="text-video-primary font-semibold">ComfyUI</span>. 
-            Un flujo completo de dos pasos para contenido multimedia de alta calidad.
+            Crea <span className="text-voice-primary font-semibold">voces mágicas</span> para tus personajes y 
+            da <span className="text-story-primary font-semibold">vida a tus historias</span> con videos animados únicos. 
+            Un mundo de aventuras infinitas te espera.
           </p>
         </div>
 
@@ -223,7 +224,7 @@ export const ComfyUIApp = () => {
         {/* Footer */}
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            Powered by ElevenLabs TTS + ComfyUI
+            ✨ Donde cada historia cobra vida ✨
           </p>
         </div>
       </div>

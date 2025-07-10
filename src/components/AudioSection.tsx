@@ -37,16 +37,16 @@ export const AudioSection = ({
   return (
     <div className="bg-card border border-border rounded-xl p-8 space-y-6 animate-slide-up">
       <div className="flex items-center gap-3">
-        <div className="p-3 bg-gradient-audio rounded-lg">
+        <div className="p-3 bg-gradient-voice rounded-lg">
           <Mic className="w-6 h-6 text-white" />
         </div>
-        <h2 className="text-2xl font-bold text-foreground">1. Generar Audio 🎤</h2>
+        <h2 className="text-2xl font-bold text-foreground">1. Crear Voz del Personaje 🎤</h2>
       </div>
 
       <div className="space-y-4">
         <div>
           <label htmlFor="voiceId" className="block text-sm font-medium text-foreground mb-2">
-            Voice ID de ElevenLabs
+            ID de la Voz del Personaje
           </label>
           <Input
             id="voiceId"
@@ -60,13 +60,13 @@ export const AudioSection = ({
 
         <div>
           <label htmlFor="script" className="block text-sm font-medium text-foreground mb-2">
-            Guión / Script
+            Historia del Personaje
           </label>
           <Textarea
             id="script"
             value={script}
             onChange={(e) => setScript(e.target.value)}
-            placeholder="Escribe aquí el texto que quieres convertir a audio..."
+            placeholder="Escribe aquí la historia que tu personaje contará..."
             className="bg-muted border-border min-h-32"
             disabled={loading}
           />
@@ -77,19 +77,19 @@ export const AudioSection = ({
         <Button
           onClick={onGenerateAudio}
           disabled={!isFormValid || loading}
-          variant="audio"
+          variant="voice"
           size="lg"
           className="w-full"
         >
           {loading ? (
             <>
               <LoadingSpinner size="sm" className="text-white" />
-              Generando Audio...
+              Creando la Voz...
             </>
           ) : (
             <>
               <Mic className="w-5 h-5" />
-              Generar Audio
+              Crear Voz del Personaje
             </>
           )}
         </Button>
@@ -97,7 +97,7 @@ export const AudioSection = ({
         {audioSrc && (
           <div className="mt-6 p-4 bg-muted/50 rounded-lg border border-border">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-medium text-foreground">Audio Generado</h3>
+              <h3 className="font-medium text-foreground">Voz del Personaje Lista</h3>
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"

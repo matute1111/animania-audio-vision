@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { useVoices } from "@/hooks/useVoices";
 import { Mic, Play, Pause } from "lucide-react";
 
 interface AudioSectionProps {
@@ -30,6 +31,7 @@ export const AudioSection = ({
   isBlocked = false
 }: AudioSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { voices, voicesLoading, voicesError } = useVoices();
 
   const handleAudioPlay = () => setIsPlaying(true);
   const handleAudioPause = () => setIsPlaying(false);
@@ -49,16 +51,24 @@ export const AudioSection = ({
       <div className="space-y-4">
         <div>
           <label htmlFor="voiceId" className="block text-sm font-medium text-foreground mb-2">
-            ID de la Voz del Personaje
+            Voz del Personaje
           </label>
-          <Input
-            id="voiceId"
+          <Select
             value={voiceId}
-            onChange={(e) => setVoiceId(e.target.value)}
-            placeholder="Ej: EXAVITQu4vr4xnSDxMaL"
-            className="bg-muted border-border"
-            disabled={loading || isBlocked}
-          />
+            onValueChange={setVoiceId}
+            disabled={loading || isBlocked || voicesLoading}
+          >
+            <SelectTrigger className="bg-muted border-border">
+              <SelectValue placeholder={voicesLoading ? "Cargando voces..." : "Selecciona una voz"} />
+            </SelectTrigger>
+            <SelectContent>
+              {voices.map((voice) => (
+                <SelectItem key={voice.voice_id} value={voice.voice_id}>
+                  {voice.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
@@ -76,6 +86,7 @@ export const AudioSection = ({
         </div>
 
         {error && <ErrorMessage message={error} />}
+        {voicesError && <ErrorMessage message={`Error cargando voces: ${voicesError}`} />}
 
         <Button
           onClick={onGenerateAudio}

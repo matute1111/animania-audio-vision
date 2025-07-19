@@ -30,7 +30,7 @@ export const useAirtable = () => {
 
         const allRecords: PendingUpload[] = [];
 
-        await base("Pending")
+        await base("Pendientes")
           .select()
           .eachPage(
             function page(records, fetchNextPage) {

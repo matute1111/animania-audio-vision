@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { StatsWidget } from "@/components/StatsWidget";
 import { AgentCard } from "@/components/AgentCard";
+import { PendingUploadsTable } from "@/components/PendingUploadsTable";
 import spaceBanner from "@/assets/space-banner.jpg";
 
 const agents = [
@@ -60,6 +61,13 @@ const Agents = () => {
               nextExecution={agent.nextExecution}
             />
           ))}
+        </div>
+
+        <div className="mt-16">
+          <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-8 text-center">
+            Pending Upload
+          </h2>
+          <PendingUploadsTable />
         </div>
 
         <div className="mt-16 text-center">

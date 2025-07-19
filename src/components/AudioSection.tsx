@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { useVoices } from "@/hooks/useVoices";
 import { Mic, Play, Pause } from "lucide-react";
 
 interface AudioSectionProps {
@@ -15,6 +16,7 @@ interface AudioSectionProps {
   loading: boolean;
   error: string | null;
   onGenerateAudio: () => void;
+  isBlocked?: boolean;
 }
 
 export const AudioSection = ({
@@ -25,14 +27,17 @@ export const AudioSection = ({
   audioSrc,
   loading,
   error,
-  onGenerateAudio
+  onGenerateAudio,
+  isBlocked = false
 }: AudioSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { voices, voicesLoading, voicesError } = useVoices();
 
   const handleAudioPlay = () => setIsPlaying(true);
   const handleAudioPause = () => setIsPlaying(false);
 
   const isFormValid = voiceId.trim() && script.trim();
+  const isDisabled = !isFormValid || loading || isBlocked;
 
   return (
     <div className="bg-card border border-border rounded-xl p-8 space-y-6 animate-slide-up">
@@ -46,16 +51,24 @@ export const AudioSection = ({
       <div className="space-y-4">
         <div>
           <label htmlFor="voiceId" className="block text-sm font-medium text-foreground mb-2">
-            ID de la Voz del Personaje
+            Voz del Personaje
           </label>
-          <Input
-            id="voiceId"
+          <Select
             value={voiceId}
-            onChange={(e) => setVoiceId(e.target.value)}
-            placeholder="Ej: EXAVITQu4vr4xnSDxMaL"
-            className="bg-muted border-border"
-            disabled={loading}
-          />
+            onValueChange={setVoiceId}
+            disabled={loading || isBlocked || voicesLoading}
+          >
+            <SelectTrigger className="bg-muted border-border">
+              <SelectValue placeholder={voicesLoading ? "Cargando voces..." : "Selecciona una voz"} />
+            </SelectTrigger>
+            <SelectContent>
+              {voices.map((voice) => (
+                <SelectItem key={voice.voice_id} value={voice.voice_id}>
+                  {voice.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
@@ -68,20 +81,26 @@ export const AudioSection = ({
             onChange={(e) => setScript(e.target.value)}
             placeholder="Escribe aquí la historia que tu personaje contará..."
             className="bg-muted border-border min-h-32"
-            disabled={loading}
+            disabled={loading || isBlocked}
           />
         </div>
 
         {error && <ErrorMessage message={error} />}
+        {voicesError && <ErrorMessage message={`Error cargando voces: ${voicesError}`} />}
 
         <Button
           onClick={onGenerateAudio}
-          disabled={!isFormValid || loading}
+          disabled={isDisabled}
           variant="voice"
           size="lg"
           className="w-full"
         >
-          {loading ? (
+          {isBlocked ? (
+            <>
+              <LoadingSpinner size="sm" className="text-white" />
+              Generando Video...
+            </>
+          ) : loading ? (
             <>
               <LoadingSpinner size="sm" className="text-white" />
               Creando la Voz...

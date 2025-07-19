@@ -54,7 +54,7 @@ export const pollHistory = async (promptId: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     const poll = async () => {
       try {
-        const response = await fetch(`http://0.0.0.0:8188/history/${promptId}`);
+        const response = await fetch(`http://localhost:8188/history/${promptId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -136,7 +136,7 @@ export const buildMediaUrl = (filename: string, subfolder: string, type: string)
     type
   });
   
-  return `http://0.0.0.0:8188/view?${params.toString()}`;
+  return `http://localhost:8188/view?${params.toString()}`;
 };
 
 export const fetchMediaAsBlob = async (url: string): Promise<Blob> => {

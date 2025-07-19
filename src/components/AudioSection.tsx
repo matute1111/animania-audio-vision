@@ -15,6 +15,7 @@ interface AudioSectionProps {
   loading: boolean;
   error: string | null;
   onGenerateAudio: () => void;
+  isBlocked?: boolean;
 }
 
 export const AudioSection = ({
@@ -25,7 +26,8 @@ export const AudioSection = ({
   audioSrc,
   loading,
   error,
-  onGenerateAudio
+  onGenerateAudio,
+  isBlocked = false
 }: AudioSectionProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -33,6 +35,7 @@ export const AudioSection = ({
   const handleAudioPause = () => setIsPlaying(false);
 
   const isFormValid = voiceId.trim() && script.trim();
+  const isDisabled = !isFormValid || loading || isBlocked;
 
   return (
     <div className="bg-card border border-border rounded-xl p-8 space-y-6 animate-slide-up">
@@ -54,7 +57,7 @@ export const AudioSection = ({
             onChange={(e) => setVoiceId(e.target.value)}
             placeholder="Ej: EXAVITQu4vr4xnSDxMaL"
             className="bg-muted border-border"
-            disabled={loading}
+            disabled={loading || isBlocked}
           />
         </div>
 
@@ -68,7 +71,7 @@ export const AudioSection = ({
             onChange={(e) => setScript(e.target.value)}
             placeholder="Escribe aquí la historia que tu personaje contará..."
             className="bg-muted border-border min-h-32"
-            disabled={loading}
+            disabled={loading || isBlocked}
           />
         </div>
 
@@ -76,12 +79,17 @@ export const AudioSection = ({
 
         <Button
           onClick={onGenerateAudio}
-          disabled={!isFormValid || loading}
+          disabled={isDisabled}
           variant="voice"
           size="lg"
           className="w-full"
         >
-          {loading ? (
+          {isBlocked ? (
+            <>
+              <LoadingSpinner size="sm" className="text-white" />
+              Generando Video...
+            </>
+          ) : loading ? (
             <>
               <LoadingSpinner size="sm" className="text-white" />
               Creando la Voz...

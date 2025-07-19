@@ -52,6 +52,7 @@ export const ComfyUIApp = () => {
             loading={audioLoading}
             error={audioError}
             onGenerateAudio={handleGenerateAudio}
+            isBlocked={videoLoading}
           />
 
           <VideoSection

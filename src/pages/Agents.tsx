@@ -65,7 +65,7 @@ const Agents = () => {
 
         <div className="mt-16">
           <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-8 text-center">
-            Pending Upload
+            Pendientes a Subir
           </h2>
           <PendingUploadsTable />
         </div>

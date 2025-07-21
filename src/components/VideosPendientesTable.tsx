@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -18,6 +20,7 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 export const VideosPendientesTable = () => {
   const { records, loading, error } = useAirtable();
   const [uploadingIds, setUploadingIds] = useState<Set<string>>(new Set());
+  const navigate = useNavigate();
 
   const pendientesRecords = records.filter(record => record.status !== "APPROVED");
 
@@ -45,6 +48,10 @@ export const VideosPendientesTable = () => {
         return newSet;
       });
     }
+  };
+
+  const handleEditMetadata = (recordId: string) => {
+    navigate(`/edit-metadata/${recordId}`);
   };
 
   const canUpload = (record: any) => {
@@ -96,13 +103,31 @@ export const VideosPendientesTable = () => {
                     </Badge>
                   </TableCell>
                   <TableCell className="max-w-xs truncate">
-                    {record.title || "Sin título"}
+                    <div 
+                      className="group relative cursor-pointer hover:bg-muted/20 p-1 rounded transition-colors"
+                      onClick={() => handleEditMetadata(record.id)}
+                    >
+                      <span>{record.title || "Sin título"}</span>
+                      <Plus className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity inline-block text-primary" />
+                    </div>
                   </TableCell>
                   <TableCell className="max-w-xs truncate">
-                    {record.description || "Sin descripción"}
+                    <div 
+                      className="group relative cursor-pointer hover:bg-muted/20 p-1 rounded transition-colors"
+                      onClick={() => handleEditMetadata(record.id)}
+                    >
+                      <span>{record.description || "Sin descripción"}</span>
+                      <Plus className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity inline-block text-primary" />
+                    </div>
                   </TableCell>
                   <TableCell>
-                    {record.category_id || "Sin categoría"}
+                    <div 
+                      className="group relative cursor-pointer hover:bg-muted/20 p-1 rounded transition-colors"
+                      onClick={() => handleEditMetadata(record.id)}
+                    >
+                      <span>{record.category_id || "Sin categoría"}</span>
+                      <Plus className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity inline-block text-primary" />
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">

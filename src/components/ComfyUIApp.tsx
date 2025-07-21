@@ -1,3 +1,4 @@
+
 import { AudioSection } from "@/components/AudioSection";
 import { VideoSection } from "@/components/VideoSection";
 import { Header } from "@/components/Header";
@@ -5,9 +6,14 @@ import spaceBanner from "@/assets/space-banner.jpg";
 import { useAudioGeneration } from "@/hooks/useAudioGeneration";
 import { useVideoGeneration } from "@/hooks/useVideoGeneration";
 import { useStoryCreation } from "@/hooks/useStoryCreation";
+import { useMetadataGeneration } from "@/hooks/useMetadataGeneration";
+import { createVideoRecord, updateVideoRecord } from "@/utils/airtable";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export const ComfyUIApp = () => {
   const { voiceId, setVoiceId, script, setScript, imageFile, setImageFile } = useStoryCreation();
+  const [currentRecordId, setCurrentRecordId] = useState<string | null>(null);
   
   const { 
     audioSrc, 
@@ -24,8 +30,41 @@ export const ComfyUIApp = () => {
     generateVideo 
   } = useVideoGeneration();
 
+  const { generateMetadata } = useMetadataGeneration();
+
   const handleGenerateAudio = () => generateAudio(voiceId, script);
-  const handleAnimateImage = () => generateVideo(imageFile!, audioBlob!, script);
+  
+  const handleAnimateImage = async () => {
+    try {
+      // Generate video
+      await generateVideo(imageFile!, audioBlob!, script);
+      
+      // Create initial record in Airtable
+      const recordId = await createVideoRecord({
+        raw: true,
+        audio: true,
+        script: script,
+        status: "PENDING"
+      });
+      
+      setCurrentRecordId(recordId);
+      toast.success("¡Video creado y agregado a pendientes!");
+      
+      // Generate metadata automatically
+      try {
+        const metadata = await generateMetadata(script);
+        await updateVideoRecord(recordId, metadata);
+        toast.success("Metadatos generados automáticamente");
+      } catch (error) {
+        console.error("Error generating metadata:", error);
+        toast.warning("Video creado, pero no se pudieron generar los metadatos automáticamente");
+      }
+      
+    } catch (error) {
+      console.error("Error in video process:", error);
+      toast.error("Error en el proceso de video");
+    }
+  };
 
   return (
     <div 
@@ -65,6 +104,18 @@ export const ComfyUIApp = () => {
             audioSrc={audioSrc}
           />
         </div>
+
+        {/* Success Message */}
+        {currentRecordId && videoSrc && (
+          <div className="mt-8 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-center">
+            <p className="text-green-600 font-medium">
+              ¡Video agregado exitosamente a la lista de pendientes!
+            </p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Puedes verlo en la página General → Videos Pendientes
+            </p>
+          </div>
+        )}
 
         {/* Footer */}
         <div className="mt-16 text-center">

@@ -13,7 +13,7 @@ export const Header = () => {
         />
       </div>
       <h1 className="text-6xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-6">
-        Hub de Historias Infinitas
+        Video nuevo
       </h1>
     </div>
   );

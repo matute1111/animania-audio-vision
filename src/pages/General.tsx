@@ -20,7 +20,7 @@ const General = () => {
         <div className="text-center mb-12">
           <Navigation />
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-6">
-            Panel General - Distribuidor de Instancias
+            Hub de Historias Intergalácticas
           </h1>
           <p className="text-xl text-muted-foreground">
             Centro de control para gestión de videos y reportes de agentes

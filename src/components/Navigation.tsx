@@ -58,7 +58,7 @@ export const Navigation = () => {
                 )
               }
             >
-              🤖 Agentes
+              📈 Informes de agentes
             </NavLink>
           </NavigationMenuLink>
         </NavigationMenuItem>

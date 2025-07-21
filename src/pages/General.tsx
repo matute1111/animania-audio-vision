@@ -3,9 +3,13 @@ import { SidebarMenu } from "@/components/SidebarMenu";
 import { StatsWidget } from "@/components/StatsWidget";
 import { VideosPendientesTable } from "@/components/VideosPendientesTable";
 import { VideosAprobadosTable } from "@/components/VideosAprobadosTable";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import spaceBanner from "@/assets/space-banner.jpg";
 
 const General = () => {
+  const navigate = useNavigate();
+
   return (
     <div
       className="min-h-screen bg-background relative"
@@ -33,9 +37,17 @@ const General = () => {
 
         <div className="space-y-16">
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-8 text-center">
-              Videos Pendientes
-            </h2>
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent text-center flex-1">
+                Videos Pendientes
+              </h2>
+              <Button 
+                onClick={() => navigate("/")}
+                className="ml-4"
+              >
+                + Nuevo Video
+              </Button>
+            </div>
             <VideosPendientesTable />
           </div>
 

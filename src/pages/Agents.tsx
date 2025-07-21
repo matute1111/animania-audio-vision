@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SidebarMenu } from "@/components/SidebarMenu";
 import { StatsWidget } from "@/components/StatsWidget";
 import { AgentCard } from "@/components/AgentCard";
 import { PendingUploadsTable } from "@/components/PendingUploadsTable";
@@ -40,6 +41,7 @@ const Agents = () => {
       }}
     >
       <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+      <SidebarMenu />
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <Navigation />

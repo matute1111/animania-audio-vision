@@ -30,38 +30,6 @@ export const Navigation = () => {
             </NavLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <NavLink
-              to="/general"
-              className={({ isActive }) =>
-                cn(
-                  navigationMenuTriggerStyle(),
-                  "bg-card/50 backdrop-blur-sm border border-border/50 hover:bg-card text-foreground hover:text-foreground",
-                  isActive && "bg-primary text-primary-foreground"
-                )
-              }
-            >
-              📊 General
-            </NavLink>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <NavLink
-              to="/agents"
-              className={({ isActive }) =>
-                cn(
-                  navigationMenuTriggerStyle(),
-                  "bg-card/50 backdrop-blur-sm border border-border/50 hover:bg-card text-foreground hover:text-foreground",
-                  isActive && "bg-primary text-primary-foreground"
-                )
-              }
-            >
-              📈 Informes de agentes
-            </NavLink>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

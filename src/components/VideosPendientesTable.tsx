@@ -1,0 +1,148 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Upload } from "lucide-react";
+import { useAirtable } from "@/hooks/useAirtable";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { ErrorMessage } from "@/components/ErrorMessage";
+
+export const VideosPendientesTable = () => {
+  const { records, loading, error } = useAirtable();
+  const [uploadingIds, setUploadingIds] = useState<Set<string>>(new Set());
+
+  const pendientesRecords = records.filter(record => record.status !== "APPROVED");
+
+  const handleAddVideo = (recordId: string) => {
+    console.log("Agregando video para:", recordId);
+    // Aquí implementarías la lógica para agregar un video más
+  };
+
+  const handleUpload = async (recordId: string) => {
+    setUploadingIds(prev => new Set(prev).add(recordId));
+    
+    try {
+      // Aquí implementarías la lógica de subida
+      console.log("Subiendo video:", recordId);
+      
+      // Simular subida
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+    } catch (error) {
+      console.error("Error al subir:", error);
+    } finally {
+      setUploadingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(recordId);
+        return newSet;
+      });
+    }
+  };
+
+  const canUpload = (record: any) => {
+    return record.raw && record.audio && record.script && record.final;
+  };
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} />;
+
+  return (
+    <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+      <CardHeader>
+        <CardTitle className="text-foreground">Videos Pendientes de Aprobación</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Crudo</TableHead>
+                <TableHead>Audio</TableHead>
+                <TableHead>Guión</TableHead>
+                <TableHead>Título</TableHead>
+                <TableHead>Descripción</TableHead>
+                <TableHead>Categoría</TableHead>
+                <TableHead>Acciones</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {pendientesRecords.map((record) => (
+                <TableRow key={record.id}>
+                  <TableCell className="font-mono text-sm">
+                    {record.id.slice(-6)}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={record.raw ? "default" : "secondary"}>
+                      {record.raw ? "Sí" : "No"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={record.audio ? "default" : "secondary"}>
+                      {record.audio ? "Sí" : "No"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={record.script ? "default" : "secondary"}>
+                      {record.script ? "Sí" : "No"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {record.title || "Sin título"}
+                  </TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {record.description || "Sin descripción"}
+                  </TableCell>
+                  <TableCell>
+                    {record.category_id || "Sin categoría"}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleAddVideo(record.id)}
+                        className="flex items-center gap-1"
+                      >
+                        <Plus className="h-3 w-3" />
+                        Video+
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() => handleUpload(record.id)}
+                        disabled={!canUpload(record) || uploadingIds.has(record.id)}
+                        className="flex items-center gap-1"
+                      >
+                        {uploadingIds.has(record.id) ? (
+                          <LoadingSpinner />
+                        ) : (
+                          <Upload className="h-3 w-3" />
+                        )}
+                        OK
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {pendientesRecords.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                    No hay videos pendientes
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

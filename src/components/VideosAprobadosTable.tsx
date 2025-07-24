@@ -24,8 +24,7 @@ export const VideosAprobadosTable = () => {
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="text-foreground flex items-center gap-2">
-          <CheckCircle className="h-5 w-5 text-green-500" />
+        <CardTitle className="text-foreground">
           Videos Aprobados
         </CardTitle>
       </CardHeader>

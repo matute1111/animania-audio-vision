@@ -8,14 +8,13 @@ import { useNavigate } from "react-router-dom";
 import spaceBanner from "@/assets/space-banner.jpg";
 const General = () => {
   const navigate = useNavigate();
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative overflow-hidden" style={{
-        backgroundImage: `url(${spaceBanner})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed"
-      }}>
+      backgroundImage: `url(${spaceBanner})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed"
+    }}>
         <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
         
         <AppSidebar />
@@ -29,9 +28,7 @@ const General = () => {
         <div className="space-y-16">
           <div>
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent text-center flex-1">
-                Videos Pendientes
-              </h2>
+              
               <Button onClick={() => navigate("/")} className="ml-4">
                 + Nuevo Video
               </Button>
@@ -55,7 +52,6 @@ const General = () => {
           </div>
         </main>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
 export default General;

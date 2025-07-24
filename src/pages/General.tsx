@@ -1,6 +1,5 @@
 import { Navigation } from "@/components/Navigation";
 import { AppSidebar } from "@/components/AppSidebar";
-import { StatsWidget } from "@/components/StatsWidget";
 import { VideosPendientesTable } from "@/components/VideosPendientesTable";
 import { VideosAprobadosTable } from "@/components/VideosAprobadosTable";
 import { Button } from "@/components/ui/button";
@@ -27,10 +26,6 @@ const General = () => {
           </header>
           
           <div className="max-w-full mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
-        
-
-        <StatsWidget />
-
         <div className="space-y-16">
           <div>
             <div className="flex justify-between items-center mb-8">

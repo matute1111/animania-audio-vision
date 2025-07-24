@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { PenTool, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
-
 const NuevoGuion = () => {
   const [tema, setTema] = useState("");
   const [contexto, setContexto] = useState("");
@@ -20,26 +19,21 @@ const NuevoGuion = () => {
   const [tipoHistoria, setTipoHistoria] = useState("");
   const [guionesGenerados, setGuionesGenerados] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-
   const handleGenerarGuiones = async () => {
     if (!tema.trim()) {
       toast.error("Por favor ingresa un tema para el guión");
       return;
     }
-
     setLoading(true);
     try {
       // Aquí conectarás con tu LLM entrenada
       // Por ahora simulo la respuesta
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const nuevosGuiones = Array.from({ length: parseInt(cantidadGuiones) }, (_, i) => 
-        `Guión ${i + 1} sobre "${tema}":\n\nEste es un guión de ejemplo generado por tu agente LLM entrenado. El tema principal es "${tema}" con contexto adicional: ${contexto || "Sin contexto específico"}.\n\nTipo de historia: ${tipoHistoria || "General"}\n\n[Aquí iría el contenido completo del guión generado por tu LLM...]`
-      );
-      
+      const nuevosGuiones = Array.from({
+        length: parseInt(cantidadGuiones)
+      }, (_, i) => `Guión ${i + 1} sobre "${tema}":\n\nEste es un guión de ejemplo generado por tu agente LLM entrenado. El tema principal es "${tema}" con contexto adicional: ${contexto || "Sin contexto específico"}.\n\nTipo de historia: ${tipoHistoria || "General"}\n\n[Aquí iría el contenido completo del guión generado por tu LLM...]`);
       setGuionesGenerados(nuevosGuiones);
       toast.success(`${cantidadGuiones} guión(es) generado(s) exitosamente`);
-      
     } catch (error) {
       console.error("Error generando guiones:", error);
       toast.error("Error al generar los guiones");
@@ -47,7 +41,6 @@ const NuevoGuion = () => {
       setLoading(false);
     }
   };
-
   const handleLimpiar = () => {
     setTema("");
     setContexto("");
@@ -55,15 +48,13 @@ const NuevoGuion = () => {
     setTipoHistoria("");
     setGuionesGenerados([]);
   };
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative" style={{
-        backgroundImage: `url(${spaceBanner})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}>
+      backgroundImage: `url(${spaceBanner})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed"
+    }}>
         <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
         
         <AppSidebar />
@@ -75,12 +66,8 @@ const NuevoGuion = () => {
           
           <div className="max-w-6xl mx-auto px-6 py-12">
             <div className="text-center mb-12">
-              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-6">
-                Generador de Guiones IA
-              </h1>
-              <p className="text-muted-foreground">
-                Crea guiones únicos con tu agente LLM entrenado
-              </p>
+              
+              
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -95,13 +82,7 @@ const NuevoGuion = () => {
                 <CardContent className="space-y-6">
                   <div>
                     <Label htmlFor="tema">Tema Principal *</Label>
-                    <Input
-                      id="tema"
-                      value={tema}
-                      onChange={(e) => setTema(e.target.value)}
-                      placeholder="Ej: Aventura espacial, Historia de amor, Misterio..."
-                      className="mt-1"
-                    />
+                    <Input id="tema" value={tema} onChange={e => setTema(e.target.value)} placeholder="Ej: Aventura espacial, Historia de amor, Misterio..." className="mt-1" />
                   </div>
 
                   <div>
@@ -125,13 +106,7 @@ const NuevoGuion = () => {
 
                   <div>
                     <Label htmlFor="contexto">Contexto Adicional</Label>
-                    <Textarea
-                      id="contexto"
-                      value={contexto}
-                      onChange={(e) => setContexto(e.target.value)}
-                      placeholder="Describe detalles específicos, personajes, ambiente, época..."
-                      className="mt-1 min-h-24"
-                    />
+                    <Textarea id="contexto" value={contexto} onChange={e => setContexto(e.target.value)} placeholder="Describe detalles específicos, personajes, ambiente, época..." className="mt-1 min-h-24" />
                   </div>
 
                   <div>
@@ -153,29 +128,17 @@ const NuevoGuion = () => {
                   <Separator />
 
                   <div className="flex gap-3">
-                    <Button 
-                      onClick={handleGenerarGuiones}
-                      disabled={loading || !tema.trim()}
-                      className="flex-1"
-                    >
-                      {loading ? (
-                        <>
+                    <Button onClick={handleGenerarGuiones} disabled={loading || !tema.trim()} className="flex-1">
+                      {loading ? <>
                           <LoadingSpinner size="sm" className="mr-2" />
                           Generando...
-                        </>
-                      ) : (
-                        <>
+                        </> : <>
                           <Sparkles className="h-4 w-4 mr-2" />
                           Generar Guiones
-                        </>
-                      )}
+                        </>}
                     </Button>
                     
-                    <Button 
-                      variant="outline"
-                      onClick={handleLimpiar}
-                      disabled={loading}
-                    >
+                    <Button variant="outline" onClick={handleLimpiar} disabled={loading}>
                       Limpiar
                     </Button>
                   </div>
@@ -191,16 +154,12 @@ const NuevoGuion = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {guionesGenerados.length === 0 ? (
-                    <div className="text-center py-12 text-muted-foreground">
+                  {guionesGenerados.length === 0 ? <div className="text-center py-12 text-muted-foreground">
                       <PenTool className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Los guiones generados aparecerán aquí</p>
                       <p className="text-sm">Completa la configuración y presiona "Generar Guiones"</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {guionesGenerados.map((guion, index) => (
-                        <Card key={index} className="bg-background/50">
+                    </div> : <div className="space-y-4 max-h-96 overflow-y-auto">
+                      {guionesGenerados.map((guion, index) => <Card key={index} className="bg-background/50">
                           <CardHeader className="pb-2">
                             <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
                           </CardHeader>
@@ -209,10 +168,8 @@ const NuevoGuion = () => {
                               {guion}
                             </pre>
                           </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  )}
+                        </Card>)}
+                    </div>}
                 </CardContent>
               </Card>
             </div>
@@ -238,8 +195,6 @@ const NuevoGuion = () => {
           </div>
         </main>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default NuevoGuion;

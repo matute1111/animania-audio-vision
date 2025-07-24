@@ -27,6 +27,11 @@ const menuItems = [
     icon: Plus,
   },
   {
+    title: "Nuevo Guión",
+    path: "/nuevo-guion",
+    icon: Plus,
+  },
+  {
     title: "Informes de agentes",
     path: "/agents",
     icon: Users,

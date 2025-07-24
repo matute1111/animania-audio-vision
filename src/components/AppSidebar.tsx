@@ -17,12 +17,12 @@ import { Button } from "@/components/ui/button";
 
 const menuItems = [
   {
-    title: "📊 General",
+    title: "General",
     path: "/general",
     icon: Home,
   },
   {
-    title: "📈 Informes de agentes",
+    title: "Informes de agentes",
     path: "/agents",
     icon: Users,
   },

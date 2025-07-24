@@ -37,9 +37,7 @@ const General = () => {
           </div>
 
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-8 text-center">
-              Videos Aprobados
-            </h2>
+            
             <VideosAprobadosTable />
           </div>
         </div>

@@ -22,13 +22,13 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: "Nuevo Video",
-    path: "/nuevo-video",
+    title: "Nuevo Guión",
+    path: "/nuevo-guion",
     icon: Plus,
   },
   {
-    title: "Nuevo Guión",
-    path: "/nuevo-guion",
+    title: "Nuevo Video",
+    path: "/nuevo-video",
     icon: Plus,
   },
   {

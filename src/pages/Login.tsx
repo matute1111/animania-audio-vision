@@ -9,6 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Eye, EyeOff } from "lucide-react";
 import { validateUser } from "@/utils/airtable";
+import { AppSidebar } from "@/components/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -39,8 +41,16 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
-      <Card className="w-full max-w-md shadow-2xl">
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex bg-gradient-to-br from-background to-secondary/20">
+        <AppSidebar />
+        
+        <main className="flex-1 flex items-center justify-center p-4">
+          <header className="absolute top-0 left-64 right-0 h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+            <SidebarTrigger className="ml-4" />
+          </header>
+          
+          <Card className="w-full max-w-md shadow-2xl mt-12">
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center mb-4">
             <img 
@@ -119,7 +129,9 @@ export default function Login() {
             </Button>
           </form>
         </CardContent>
-      </Card>
-    </div>
+          </Card>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }

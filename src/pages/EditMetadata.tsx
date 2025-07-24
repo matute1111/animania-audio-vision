@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { getVideoRecord, updateVideoRecord } from "@/utils/airtable";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { AppSidebar } from "@/components/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import spaceBanner from "@/assets/space-banner.jpg";
 
 const EditMetadata = () => {
@@ -79,17 +81,23 @@ const EditMetadata = () => {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div
-      className="min-h-screen bg-background relative"
-      style={{
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex bg-background relative" style={{
         backgroundImage: `url(${spaceBanner})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-      }}
-    >
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-12">
+      }}>
+        <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+        
+        <AppSidebar />
+        
+        <main className="flex-1 relative z-10">
+          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+            <SidebarTrigger className="ml-4" />
+          </header>
+          
+          <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="mb-8">
           <Button 
             variant="outline" 
@@ -188,10 +196,12 @@ const EditMetadata = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
+           </div>
         </div>
+          </div>
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

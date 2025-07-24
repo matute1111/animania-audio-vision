@@ -1,22 +1,32 @@
 import { Navigation } from "@/components/Navigation";
-import { SidebarMenu } from "@/components/SidebarMenu";
+import { AppSidebar } from "@/components/AppSidebar";
 import { StatsWidget } from "@/components/StatsWidget";
 import { VideosPendientesTable } from "@/components/VideosPendientesTable";
 import { VideosAprobadosTable } from "@/components/VideosAprobadosTable";
 import { Button } from "@/components/ui/button";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
 import spaceBanner from "@/assets/space-banner.jpg";
 const General = () => {
   const navigate = useNavigate();
-  return <div className="min-h-screen bg-background relative" style={{
-    backgroundImage: `url(${spaceBanner})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundAttachment: "fixed"
-  }}>
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
-      <SidebarMenu />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex bg-background relative" style={{
+        backgroundImage: `url(${spaceBanner})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed"
+      }}>
+        <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+        
+        <AppSidebar />
+        
+        <main className="flex-1 relative z-10">
+          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+            <SidebarTrigger className="ml-4" />
+          </header>
+          
+          <div className="max-w-7xl mx-auto px-6 py-12">
         
 
         <StatsWidget />
@@ -42,12 +52,15 @@ const General = () => {
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground">
-            ✨ Gestión centralizada de contenido ✨
-          </p>
-        </div>
+            <div className="mt-16 text-center">
+              <p className="text-sm text-muted-foreground">
+                ✨ Gestión centralizada de contenido ✨
+              </p>
+            </div>
+          </div>
+        </main>
       </div>
-    </div>;
+    </SidebarProvider>
+  );
 };
 export default General;

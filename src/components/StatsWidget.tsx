@@ -17,5 +17,21 @@ const stats = [{
   icon: "🎬"
 }];
 export const StatsWidget = () => {
-  return;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      {stats.map((stat, index) => (
+        <Card key={index} className="bg-card/90 backdrop-blur-sm border-border/50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              {stat.title}
+            </CardTitle>
+            <span className="text-2xl">{stat.icon}</span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 };

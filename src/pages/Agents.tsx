@@ -1,8 +1,9 @@
 import { Navigation } from "@/components/Navigation";
-import { SidebarMenu } from "@/components/SidebarMenu";
+import { AppSidebar } from "@/components/AppSidebar";
 import { StatsWidget } from "@/components/StatsWidget";
 import { AgentCard } from "@/components/AgentCard";
 import { PendingUploadsTable } from "@/components/PendingUploadsTable";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import spaceBanner from "@/assets/space-banner.jpg";
 
 const agents = [
@@ -31,18 +32,23 @@ const agents = [
 
 const Agents = () => {
   return (
-    <div
-      className="min-h-screen bg-background relative"
-      style={{
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex bg-background relative" style={{
         backgroundImage: `url(${spaceBanner})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
-      }}
-    >
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
-      <SidebarMenu />
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+      }}>
+        <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+        
+        <AppSidebar />
+        
+        <main className="flex-1 relative z-10">
+          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+            <SidebarTrigger className="ml-4" />
+          </header>
+          
+          <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
           <Navigation />
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-magic bg-clip-text text-transparent mb-6">
@@ -72,13 +78,15 @@ const Agents = () => {
           <PendingUploadsTable />
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground">
-            ✨ Automatización inteligente para tu canal ✨
-          </p>
-        </div>
+            <div className="mt-16 text-center">
+              <p className="text-sm text-muted-foreground">
+                ✨ Automatización inteligente para tu canal ✨
+              </p>
+            </div>
+          </div>
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

@@ -1,11 +1,19 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { Badge } from "@/components/ui/badge";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="text-center mb-12">
@@ -21,7 +29,26 @@ export const Header = () => {
         <div className="flex-1">
           <Navigation />
         </div>
-        <div className="w-24"></div>
+        <div className="flex items-center gap-3">
+          {user && (
+            <>
+              <div className="flex items-center gap-2 text-sm">
+                <User className="h-4 w-4" />
+                <span className="font-medium">{user.name}</span>
+                <Badge variant="secondary">{user.role}</Badge>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Salir
+              </Button>
+            </>
+          )}
+        </div>
       </div>
       <div className="mb-8">
         <img 

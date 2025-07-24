@@ -21,7 +21,7 @@ export const StatsWidget = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
       {stats.map((stat, index) => (
         <Card key={index} className="bg-card/90 backdrop-blur-sm border-border/50">
-          <CardContent className="p-6">
+          <CardContent>
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-foreground">{stat.value}</div>
               <span className="text-2xl">{stat.icon}</span>

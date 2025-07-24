@@ -30,8 +30,9 @@ export const VideosAprobadosTable = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <Table>
+        <div className="overflow-x-auto -mx-2 px-2">
+          <div className="min-w-[700px]">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
@@ -65,10 +66,10 @@ export const VideosAprobadosTable = () => {
                       {record.script ? "Sí" : "No"}
                     </Badge>
                   </TableCell>
-                  <TableCell className="max-w-xs truncate">
+                  <TableCell className="max-w-[120px] truncate">
                     {record.title || "Sin título"}
                   </TableCell>
-                  <TableCell className="max-w-xs truncate">
+                  <TableCell className="max-w-[120px] truncate">
                     {record.description || "Sin descripción"}
                   </TableCell>
                   <TableCell>
@@ -89,7 +90,8 @@ export const VideosAprobadosTable = () => {
                 </TableRow>
               )}
             </TableBody>
-          </Table>
+            </Table>
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -11,7 +11,7 @@ const General = () => {
   const navigate = useNavigate();
   return (
     <SidebarProvider>
-      <div className="min-h-screen w-full flex bg-background relative" style={{
+      <div className="min-h-screen w-full flex bg-background relative overflow-hidden" style={{
         backgroundImage: `url(${spaceBanner})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -21,12 +21,12 @@ const General = () => {
         
         <AppSidebar />
         
-        <main className="flex-1 relative z-10">
-          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+        <main className="flex-1 relative z-10 overflow-auto">
+          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm flex-shrink-0">
             <SidebarTrigger className="ml-4" />
           </header>
           
-          <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="max-w-full mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
         
 
         <StatsWidget />

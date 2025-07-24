@@ -91,8 +91,9 @@ export const VideosPendientesTable = () => {
       </CardHeader>
       <CardContent>
         {viewMode === 'table' ? (
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-2 px-2">
+            <div className="min-w-[800px]">
+              <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>
@@ -126,7 +127,7 @@ export const VideosPendientesTable = () => {
                         {record.script ? "Sí" : "No"}
                       </Badge>
                     </TableCell>
-                    <TableCell className="max-w-xs truncate">
+                    <TableCell className="max-w-[120px] truncate">
                       <div 
                         className="group relative cursor-pointer hover:bg-muted/20 p-1 rounded transition-colors"
                         onClick={() => handleEditMetadata(record.id)}
@@ -135,7 +136,7 @@ export const VideosPendientesTable = () => {
                         <Plus className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity inline-block text-primary" />
                       </div>
                     </TableCell>
-                    <TableCell className="max-w-xs truncate">
+                    <TableCell className="max-w-[120px] truncate">
                       <div 
                         className="group relative cursor-pointer hover:bg-muted/20 p-1 rounded transition-colors"
                         onClick={() => handleEditMetadata(record.id)}
@@ -189,7 +190,8 @@ export const VideosPendientesTable = () => {
                   </TableRow>
                 )}
               </TableBody>
-            </Table>
+              </Table>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -16,6 +16,15 @@ export interface VideoRecord {
   status?: string;
 }
 
+export interface UserRecord {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  active: boolean;
+  created_at: string;
+}
+
 export const createVideoRecord = async (data: VideoRecord): Promise<string> => {
   try {
     const record = await base("Pendientes").create([
@@ -64,5 +73,32 @@ export const getVideoRecord = async (recordId: string): Promise<VideoRecord & { 
   } catch (error) {
     console.error("Error fetching record:", error);
     throw new Error("Failed to fetch video record");
+  }
+};
+
+export const validateUser = async (email: string, password: string): Promise<UserRecord | null> => {
+  try {
+    const records = await base("Usuarios")
+      .select({
+        filterByFormula: `AND({email} = '${email}', {password} = '${password}', {active} = TRUE())`
+      })
+      .firstPage();
+
+    if (records.length > 0) {
+      const record = records[0];
+      return {
+        id: record.id,
+        email: record.fields.email as string,
+        name: record.fields.name as string,
+        role: record.fields.role as string,
+        active: record.fields.active as boolean,
+        created_at: record.fields.created_at as string,
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error("Error validating user:", error);
+    throw new Error("Failed to validate user");
   }
 };

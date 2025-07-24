@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Agents from "./pages/Agents";
 import General from "./pages/General";
 import EditMetadata from "./pages/EditMetadata";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/general" element={<General />} />
           <Route path="/edit-metadata/:id" element={<EditMetadata />} />

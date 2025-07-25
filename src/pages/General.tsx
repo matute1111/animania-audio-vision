@@ -5,9 +5,11 @@ import { VideosAprobadosTable } from "@/components/VideosAprobadosTable";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@/hooks/useUser";
 import spaceBanner from "@/assets/space-banner.jpg";
 const General = () => {
   const navigate = useNavigate();
+  const user = useUser();
   return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative overflow-hidden" style={{
       backgroundImage: `url(${spaceBanner})`,
@@ -25,6 +27,14 @@ const General = () => {
           </header>
           
           <div className="max-w-full mx-auto px-4 sm:px-6 py-8 overflow-x-hidden">
+            {user && (
+              <div className="mb-6">
+                <h1 className="text-2xl font-semibold text-foreground">
+                  Bienvenido {user.name}
+                </h1>
+              </div>
+            )}
+            
         <div className="space-y-16">
           <div>
             <div className="flex justify-between items-center mb-8">

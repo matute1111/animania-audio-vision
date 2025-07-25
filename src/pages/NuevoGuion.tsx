@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,22 +9,58 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Separator } from "@/components/ui/separator";
-import { PenTool, Sparkles, X, ChevronUp, ChevronDown } from "lucide-react";
+import { PenTool, Sparkles, X, ChevronUp, ChevronDown, Maximize2, Check, ChevronRight, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
 import { TrendyWords } from "@/components/TrendyWords";
 import { useCharacters } from "@/hooks/useCharacters";
+import { useVideoCreationFlow } from "@/hooks/useVideoCreationFlow";
+interface Guion {
+  id: string;
+  content: string;
+  minimized: boolean;
+}
+
+interface GuionAprobado {
+  id: string;
+  content: string;
+  title: string;
+  expanded: boolean;
+}
+
 const NuevoGuion = () => {
+  const navigate = useNavigate();
+  const { setScript } = useVideoCreationFlow();
+  
   const [tema, setTema] = useState("");
   const [contexto, setContexto] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState("");
   const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
-  const [guionesGenerados, setGuionesGenerados] = useState<{id: string, content: string, minimized: boolean}[]>([]);
+  const [guionesGenerados, setGuionesGenerados] = useState<Guion[]>([]);
+  const [guionesAprobados, setGuionesAprobados] = useState<GuionAprobado[]>([]);
   const [loading, setLoading] = useState(false);
   
+  // Dialog states
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedGuionForDialog, setSelectedGuionForDialog] = useState<Guion | null>(null);
+  
   const { characters, loading: charactersLoading } = useCharacters();
+
+  // Load approved scripts from localStorage
+  useEffect(() => {
+    const savedApproved = localStorage.getItem('guionesAprobados');
+    if (savedApproved) {
+      try {
+        setGuionesAprobados(JSON.parse(savedApproved));
+      } catch (error) {
+        console.error('Error loading approved scripts:', error);
+      }
+    }
+  }, []);
   const handleGenerarGuiones = async () => {
     if (!selectedCharacter) {
       toast.error("Por favor selecciona un personaje");
@@ -129,6 +166,47 @@ const NuevoGuion = () => {
           : guion
       )
     );
+  };
+
+  const handleOpenDialog = (guion: Guion) => {
+    setSelectedGuionForDialog(guion);
+    setDialogOpen(true);
+  };
+
+  const handleApproveScript = (guion: Guion) => {
+    const approvedScript: GuionAprobado = {
+      id: `approved-${Date.now()}`,
+      content: guion.content,
+      title: `Guión Aprobado ${guionesAprobados.length + 1}`,
+      expanded: false
+    };
+
+    const newApproved = [...guionesAprobados, approvedScript];
+    setGuionesAprobados(newApproved);
+    localStorage.setItem('guionesAprobados', JSON.stringify(newApproved));
+
+    // Remove from generated scripts
+    setGuionesGenerados(prev => prev.filter(g => g.id !== guion.id));
+    
+    setDialogOpen(false);
+    setSelectedGuionForDialog(null);
+    toast.success("Guión aprobado exitosamente");
+  };
+
+  const handleToggleApprovedScript = (scriptId: string) => {
+    setGuionesAprobados(prev => 
+      prev.map(script => 
+        script.id === scriptId 
+          ? { ...script, expanded: !script.expanded }
+          : script
+      )
+    );
+  };
+
+  const handleGoToAudio = (script: GuionAprobado) => {
+    setScript(script.content);
+    toast.success("Guión cargado en la sección de audio");
+    navigate('/nuevo-audio');
   };
   return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative" style={{
@@ -255,25 +333,36 @@ const NuevoGuion = () => {
                       <Card key={guion.id} className="bg-background/50 w-full">
                         <CardHeader className="pb-2 flex flex-row items-center justify-between">
                           <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleToggleMinimize(guion.id)}
-                            className="h-6 w-6 p-0"
-                          >
-                            {guion.minimized ? (
-                              <ChevronDown className="h-4 w-4" />
-                            ) : (
-                              <ChevronUp className="h-4 w-4" />
-                            )}
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleOpenDialog(guion)}
+                              className="h-6 w-6 p-0"
+                              title="Abrir en ventana completa"
+                            >
+                              <Maximize2 className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleToggleMinimize(guion.id)}
+                              className="h-6 w-6 p-0"
+                            >
+                              {guion.minimized ? (
+                                <ChevronDown className="h-4 w-4" />
+                              ) : (
+                                <ChevronUp className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
                         </CardHeader>
                         {!guion.minimized && (
                           <CardContent>
                             <Textarea
                               value={guion.content}
                               onChange={(e) => handleEditGuion(guion.id, e.target.value)}
-                              className="min-h-32 w-full whitespace-pre-wrap text-sm resize-none"
+                              className="min-h-48 w-full whitespace-pre-wrap text-sm resize-y"
                               placeholder="Contenido del guión..."
                             />
                           </CardContent>
@@ -284,6 +373,66 @@ const NuevoGuion = () => {
                 )}
               </CardContent>
             </Card>
+
+            {/* Panel de Guiones Aprobados */}
+            {guionesAprobados.length > 0 && (
+              <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-green-500" />
+                    Guiones Aprobados
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {guionesAprobados.map((script) => (
+                      <div key={script.id} className="border border-border rounded-lg bg-background/30">
+                        <Collapsible 
+                          open={script.expanded} 
+                          onOpenChange={() => handleToggleApprovedScript(script.id)}
+                        >
+                          <div className="flex items-center justify-between p-4">
+                            <div className="flex items-center gap-3">
+                              <CollapsibleTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                  {script.expanded ? (
+                                    <ChevronDown className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronRight className="h-4 w-4" />
+                                  )}
+                                </Button>
+                              </CollapsibleTrigger>
+                              <div>
+                                <h4 className="font-medium text-sm">{script.title}</h4>
+                                <p className="text-xs text-muted-foreground truncate max-w-md">
+                                  {script.content.substring(0, 100)}...
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              onClick={() => handleGoToAudio(script)}
+                              size="sm"
+                              className="flex items-center gap-2"
+                            >
+                              Ir a Audio
+                              <ArrowRight className="h-3 w-3" />
+                            </Button>
+                          </div>
+                          <CollapsibleContent>
+                            <div className="px-4 pb-4">
+                              <Separator className="mb-4" />
+                              <div className="bg-muted/50 p-4 rounded-md">
+                                <p className="text-sm whitespace-pre-wrap">{script.content}</p>
+                              </div>
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Información del Agente */}
             <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border/50">
@@ -306,6 +455,52 @@ const NuevoGuion = () => {
           </div>
         </main>
       </div>
+
+      {/* Dialog for script popup */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle>
+                {selectedGuionForDialog && 
+                  `Guión ${guionesGenerados.findIndex(g => g.id === selectedGuionForDialog.id) + 1}`
+                }
+              </DialogTitle>
+              {selectedGuionForDialog && (
+                <Button
+                  onClick={() => handleApproveScript(selectedGuionForDialog)}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Check className="h-4 w-4" />
+                  Aprobar
+                </Button>
+              )}
+            </div>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto">
+            {selectedGuionForDialog && (
+              <Textarea
+                value={selectedGuionForDialog.content}
+                onChange={(e) => {
+                  const updatedContent = e.target.value;
+                  setSelectedGuionForDialog(prev => 
+                    prev ? { ...prev, content: updatedContent } : null
+                  );
+                  handleEditGuion(selectedGuionForDialog.id, updatedContent);
+                }}
+                className="min-h-[400px] w-full whitespace-pre-wrap text-sm resize-none border-0 focus-visible:ring-0"
+                placeholder="Contenido del guión..."
+              />
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Aceptar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>;
 };
 export default NuevoGuion;

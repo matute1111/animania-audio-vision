@@ -115,8 +115,13 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
 
   const handleWordClick = (word: string) => {
     onWordClick(word);
-    setSelectedWords(prev => [...prev, word]);
-    toast.success(`"${word}" agregado al contexto adicional`);
+    setSelectedWords(prev => {
+      if (prev.includes(word)) {
+        return prev.filter(w => w !== word);
+      } else {
+        return [...prev, word];
+      }
+    });
   };
 
   return (

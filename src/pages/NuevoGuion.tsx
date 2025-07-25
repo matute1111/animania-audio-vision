@@ -3,13 +3,14 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Separator } from "@/components/ui/separator";
-import { PenTool, Sparkles } from "lucide-react";
+import { PenTool, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
 import { TrendyWords } from "@/components/TrendyWords";
@@ -18,6 +19,7 @@ const NuevoGuion = () => {
   const [contexto, setContexto] = useState("");
   const [cantidadGuiones, setCantidadGuiones] = useState("1");
   const [tipoHistoria, setTipoHistoria] = useState("");
+  const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
   const [guionesGenerados, setGuionesGenerados] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const handleGenerarGuiones = async () => {
@@ -74,16 +76,22 @@ const NuevoGuion = () => {
     setContexto("");
     setCantidadGuiones("1");
     setTipoHistoria("");
+    setSelectedTrendyWords([]);
     setGuionesGenerados([]);
   };
 
   const handleWordClick = (word: string) => {
-    const currentContexto = contexto.trim();
-    if (currentContexto && !currentContexto.toLowerCase().includes(word.toLowerCase())) {
-      setContexto(currentContexto + ", " + word);
-    } else if (!currentContexto) {
-      setContexto(word);
-    }
+    setSelectedTrendyWords(prev => {
+      if (prev.includes(word)) {
+        return prev.filter(w => w !== word);
+      } else {
+        return [...prev, word];
+      }
+    });
+  };
+
+  const handleRemoveTrendyWord = (wordToRemove: string) => {
+    setSelectedTrendyWords(prev => prev.filter(w => w !== wordToRemove));
   };
   return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative" style={{
@@ -190,6 +198,24 @@ const NuevoGuion = () => {
 
                 <div>
                   <Label htmlFor="contexto">Contexto Adicional</Label>
+                  
+                  {/* Tags de palabras trendy seleccionadas */}
+                  {selectedTrendyWords.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2 mb-2">
+                      {selectedTrendyWords.map((word, index) => (
+                        <Badge
+                          key={`${word}-${index}`}
+                          variant="secondary"
+                          className="cursor-pointer flex items-center gap-1"
+                          onClick={() => handleRemoveTrendyWord(word)}
+                        >
+                          {word}
+                          <X className="h-3 w-3" />
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                  
                   <Textarea 
                     id="contexto" 
                     value={contexto} 

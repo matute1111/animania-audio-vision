@@ -111,7 +111,7 @@ const NuevoGuion = () => {
           
           <div className="max-w-6xl mx-auto px-6 py-12">
             {/* Sección de Palabras Trendy */}
-            <TrendyWords onWordClick={handleWordClick} />
+            <TrendyWords onWordClick={handleWordClick} selectedWords={selectedTrendyWords} />
 
             {/* Panel de Configuración - Horizontal */}
             <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">

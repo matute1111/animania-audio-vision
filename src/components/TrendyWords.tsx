@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 interface TrendyWordsProps {
   onWordClick: (word: string) => void;
+  selectedWords: string[];
 }
 
 // Fallback words if webhook fails
@@ -17,9 +18,8 @@ const FALLBACK_WORDS = [
 
 const WEBHOOK_URL = "https://matiasalbaca.app.n8n.cloud/webhook/trendywords";
 
-export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
+export const TrendyWords = ({ onWordClick, selectedWords }: TrendyWordsProps) => {
   const [currentWords, setCurrentWords] = useState<string[]>([]);
-  const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchTrendyWords = async () => {
@@ -115,13 +115,6 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
 
   const handleWordClick = (word: string) => {
     onWordClick(word);
-    setSelectedWords(prev => {
-      if (prev.includes(word)) {
-        return prev.filter(w => w !== word);
-      } else {
-        return [...prev, word];
-      }
-    });
   };
 
   return (

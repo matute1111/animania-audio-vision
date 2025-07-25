@@ -23,7 +23,7 @@ export const useCharacters = () => {
 
         const allCharacters: Character[] = [];
 
-        await base("Characters")
+        await base("Personajes")
           .select()
           .eachPage(
             function page(records, fetchNextPage) {

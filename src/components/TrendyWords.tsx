@@ -116,7 +116,7 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
   const handleWordClick = (word: string) => {
     onWordClick(word);
     setSelectedWords(prev => [...prev, word]);
-    toast.success(`"${word}" agregado al tema principal`);
+    toast.success(`"${word}" agregado al contexto adicional`);
   };
 
   return (
@@ -160,7 +160,7 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
           })}
         </div>
         <p className="text-xs text-muted-foreground mt-3">
-          💡 Haz click en cualquier palabra para agregarla a tu tema principal
+          💡 Haz click en cualquier palabra para agregarla al contexto adicional
         </p>
       </CardContent>
     </Card>

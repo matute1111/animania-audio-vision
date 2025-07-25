@@ -78,11 +78,11 @@ const NuevoGuion = () => {
   };
 
   const handleWordClick = (word: string) => {
-    const currentTema = tema.trim();
-    if (currentTema && !currentTema.toLowerCase().includes(word.toLowerCase())) {
-      setTema(currentTema + ", " + word);
-    } else if (!currentTema) {
-      setTema(word);
+    const currentContexto = contexto.trim();
+    if (currentContexto && !currentContexto.toLowerCase().includes(word.toLowerCase())) {
+      setContexto(currentContexto + ", " + word);
+    } else if (!currentContexto) {
+      setContexto(word);
     }
   };
   return <SidebarProvider>

@@ -44,10 +44,10 @@ const NuevoGuion = () => {
             origen: "webapp_historias_infinitas"
           },
           parametros: {
-            tema_principal: tema,
-            contexto_adicional: contexto || null,
-            personaje_seleccionado: selectedCharacter || null,
-            cantidad_solicitada: 1
+            personaje_seleccionado: selectedCharacter,
+            contexto_adicional: contexto,
+            palabras_trendy: selectedTrendyWords,
+            contexto_completo: `${selectedTrendyWords.join(', ')} ${contexto}`.trim()
           },
           configuracion: {
             idioma: "es",
@@ -143,7 +143,6 @@ const NuevoGuion = () => {
                       <Button 
                         onClick={handleGenerarGuiones} 
                         disabled={loading || !selectedCharacter} 
-                        className="flex-1"
                         size="sm"
                       >
                         {loading ? (

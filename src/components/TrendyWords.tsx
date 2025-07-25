@@ -18,7 +18,7 @@ const FALLBACK_WORDS = [
 const WEBHOOK_URL = "https://matiasalbaca.app.n8n.cloud/webhook/trendywords";
 
 export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
-  const [currentWords, setCurrentWords] = useState<string[]>(FALLBACK_WORDS);
+  const [currentWords, setCurrentWords] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchTrendyWords = async () => {
@@ -83,8 +83,7 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
       const success = await fetchTrendyWords();
       
       if (!success) {
-        setCurrentWords(FALLBACK_WORDS);
-        toast.error("No se pudieron cargar palabras del servidor, usando palabras por defecto");
+        toast.error("No se pudieron cargar palabras trendy desde el servidor");
       }
       
       setLoading(false);
@@ -102,12 +101,10 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
       if (success) {
         toast.success("Palabras trendy actualizadas");
       } else {
-        setCurrentWords(FALLBACK_WORDS);
-        toast.error("Error al actualizar palabras trendy, usando palabras por defecto");
+        toast.error("Error al actualizar palabras trendy");
       }
     } catch (error) {
       toast.error("Error al actualizar palabras trendy");
-      setCurrentWords(FALLBACK_WORDS);
     } finally {
       setLoading(false);
     }

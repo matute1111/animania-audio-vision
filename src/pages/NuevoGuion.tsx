@@ -34,10 +34,22 @@ const NuevoGuion = () => {
         },
         mode: "no-cors",
         body: JSON.stringify({
-          tema,
-          contexto,
-          cantidadGuiones: parseInt(cantidadGuiones),
-          tipoHistoria
+          solicitud: {
+            tipo: "generacion_guiones",
+            timestamp: new Date().toISOString(),
+            origen: "webapp_historias_infinitas"
+          },
+          parametros: {
+            tema_principal: tema,
+            contexto_adicional: contexto || null,
+            tipo_historia: tipoHistoria || "general",
+            cantidad_solicitada: parseInt(cantidadGuiones)
+          },
+          configuracion: {
+            idioma: "es",
+            formato_salida: "texto_plano",
+            version_api: "1.0"
+          }
         }),
       });
 

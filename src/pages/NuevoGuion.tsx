@@ -54,7 +54,7 @@ const NuevoGuion = () => {
       });
 
       // Con no-cors no podemos leer la respuesta, así que simulamos el resultado
-      toast.success("Solicitud enviada al webhook exitosamente");
+      toast.success("Generando guiones");
       
       // Simulamos guiones mientras se configura el webhook
       const nuevosGuiones = Array.from({
@@ -218,7 +218,7 @@ const NuevoGuion = () => {
                     <p className="text-sm">Completa la configuración y presiona "Generar Guiones"</p>
                   </div>
                 ) : (
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
                     {guionesGenerados.map((guion, index) => (
                       <Card key={index} className="bg-background/50">
                         <CardHeader className="pb-2">

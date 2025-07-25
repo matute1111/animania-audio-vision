@@ -83,7 +83,8 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
       const success = await fetchTrendyWords();
       
       if (!success) {
-        toast.error("No se pudieron cargar palabras trendy desde el servidor");
+        setCurrentWords(FALLBACK_WORDS);
+        toast.error("No se pudieron cargar palabras trendy desde el servidor, usando palabras de ejemplo");
       }
       
       setLoading(false);
@@ -101,7 +102,8 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
       if (success) {
         toast.success("Palabras trendy actualizadas");
       } else {
-        toast.error("Error al actualizar palabras trendy");
+        setCurrentWords(FALLBACK_WORDS);
+        toast.error("Error al actualizar palabras trendy, usando palabras de ejemplo");
       }
     } catch (error) {
       toast.error("Error al actualizar palabras trendy");

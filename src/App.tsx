@@ -11,6 +11,8 @@ import General from "./pages/General";
 import EditMetadata from "./pages/EditMetadata";
 import Login from "./pages/Login";
 import NuevoGuion from "./pages/NuevoGuion";
+import NuevoAudio from "./pages/NuevoAudio";
+import NuevoVideo from "./pages/NuevoVideo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,8 +29,9 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/agents" element={<Agents />} />
             <Route path="/general" element={<General />} />
-            <Route path="/nuevo-video" element={<Index />} />
             <Route path="/nuevo-guion" element={<NuevoGuion />} />
+            <Route path="/nuevo-audio" element={<NuevoAudio />} />
+            <Route path="/nuevo-video" element={<NuevoVideo />} />
             <Route path="/edit-metadata/:id" element={<EditMetadata />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

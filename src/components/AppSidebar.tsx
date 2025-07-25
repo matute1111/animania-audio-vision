@@ -27,7 +27,12 @@ const menuItems = [
     icon: FileText,
   },
   {
-    title: "Nuevo Video",
+    title: "Nuevo Audio",
+    path: "/nuevo-audio",
+    icon: Plus,
+  },
+  {
+    title: "Imagen y Audio",
     path: "/nuevo-video",
     icon: Video,
   },

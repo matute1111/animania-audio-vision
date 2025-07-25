@@ -39,7 +39,7 @@ const General = () => {
           <div>
             <div className="flex justify-between items-center mb-8">
               
-              <Button onClick={() => navigate("/")} className="ml-4">
+              <Button onClick={() => navigate("/nuevo-guion")} className="ml-4">
                 + Nuevo Video
               </Button>
             </div>

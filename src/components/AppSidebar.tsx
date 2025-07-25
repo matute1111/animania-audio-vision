@@ -1,4 +1,4 @@
-import { Home, Users, LogOut, Sun, Moon, Plus } from "lucide-react";
+import { Home, Users, LogOut, Sun, Moon, Plus, FileText } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import {
@@ -24,7 +24,7 @@ const menuItems = [
   {
     title: "Nuevo Guión",
     path: "/nuevo-guion",
-    icon: Plus,
+    icon: FileText,
   },
   {
     title: "Nuevo Video",

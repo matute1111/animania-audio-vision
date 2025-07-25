@@ -19,6 +19,7 @@ const WEBHOOK_URL = "https://matiasalbaca.app.n8n.cloud/webhook/trendywords";
 
 export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
   const [currentWords, setCurrentWords] = useState<string[]>([]);
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchTrendyWords = async () => {
@@ -114,6 +115,7 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
 
   const handleWordClick = (word: string) => {
     onWordClick(word);
+    setSelectedWords(prev => [...prev, word]);
     toast.success(`"${word}" agregado al tema principal`);
   };
 
@@ -139,16 +141,23 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex flex-wrap gap-2">
-          {currentWords.map((word, index) => (
-            <Badge
-              key={`${word}-${index}`}
-              variant="outline"
-              className="cursor-pointer hover:scale-105 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200 text-xs px-3 py-1"
-              onClick={() => handleWordClick(word)}
-            >
-              {word}
-            </Badge>
-          ))}
+          {currentWords.map((word, index) => {
+            const isSelected = selectedWords.includes(word);
+            return (
+              <Badge
+                key={`${word}-${index}`}
+                variant={isSelected ? "default" : "outline"}
+                className={`cursor-pointer transition-all duration-200 text-xs px-3 py-1 ${
+                  isSelected 
+                    ? "bg-primary text-primary-foreground border-primary" 
+                    : "hover:scale-105 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700"
+                }`}
+                onClick={() => handleWordClick(word)}
+              >
+                {word}
+              </Badge>
+            );
+          })}
         </div>
         <p className="text-xs text-muted-foreground mt-3">
           💡 Haz click en cualquier palabra para agregarla a tu tema principal

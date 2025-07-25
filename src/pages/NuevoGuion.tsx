@@ -108,8 +108,7 @@ const NuevoGuion = () => {
             {/* Panel de Configuración - Horizontal */}
             <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <PenTool className="h-5 w-5" />
+                <CardTitle>
                   Configuración del Guión
                 </CardTitle>
               </CardHeader>

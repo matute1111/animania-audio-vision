@@ -31,12 +31,12 @@ const NuevoGuion = () => {
     }
     setLoading(true);
     try {
+      console.log("Enviando solicitud al webhook...");
       const response = await fetch("https://matiasalbaca.app.n8n.cloud/webhook/Guiones", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        mode: "no-cors",
         body: JSON.stringify({
           solicitud: {
             tipo: "generacion_guiones",
@@ -55,9 +55,12 @@ const NuevoGuion = () => {
         }),
       });
 
-      // Handle webhook response
+      console.log("Respuesta del webhook:", response.status, response.statusText);
+
       if (response.ok) {
         const data = await response.json();
+        console.log("Datos recibidos:", data);
+        
         if (data && Array.isArray(data) && data.length > 0) {
           const nuevosGuiones = data.map((item, index) => ({
             id: `guion-${Date.now()}-${index}`,
@@ -66,20 +69,22 @@ const NuevoGuion = () => {
           }));
           setGuionesGenerados(nuevosGuiones);
           toast.success("Guiones generados exitosamente");
+        } else {
+          console.error("Formato de datos incorrecto:", data);
+          toast.error("Formato de respuesta incorrecto del webhook");
         }
       } else {
-        toast.success("Generando guiones");
-        // Simulamos guiones mientras se configura el webhook
-        const nuevosGuiones = [{
-          id: `guion-${Date.now()}`,
-          content: `Guión sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`,
-          minimized: false
-        }];
-        setGuionesGenerados(nuevosGuiones);
+        const errorText = await response.text();
+        console.error("Error del webhook:", response.status, errorText);
+        toast.error(`Error del webhook: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error generando guiones:", error);
-      toast.error("Error al conectar con el webhook. Verifica la configuración en n8n.");
+      console.error("Error conectando con el webhook:", error);
+      if (error instanceof TypeError && error.message.includes('CORS')) {
+        toast.error("Error de CORS: Configura el webhook de n8n para permitir peticiones desde este dominio");
+      } else {
+        toast.error("Error al conectar con el webhook. Verifica la configuración en n8n.");
+      }
     } finally {
       setLoading(false);
     }

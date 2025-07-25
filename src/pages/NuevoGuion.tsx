@@ -78,26 +78,32 @@ const NuevoGuion = () => {
             {/* Sección de Palabras Trendy */}
             <TrendyWords onWordClick={handleWordClick} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Panel de Configuración */}
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <PenTool className="h-5 w-5" />
-                    Configuración del Guión
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
+            {/* Panel de Configuración - Horizontal */}
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <PenTool className="h-5 w-5" />
+                  Configuración del Guión
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                   <div>
                     <Label htmlFor="tema">Tema Principal *</Label>
-                    <Input id="tema" value={tema} onChange={e => setTema(e.target.value)} placeholder="Ej: Aventura espacial, Historia de amor, Misterio..." className="mt-1" />
+                    <Input 
+                      id="tema" 
+                      value={tema} 
+                      onChange={e => setTema(e.target.value)} 
+                      placeholder="Ej: Aventura espacial..." 
+                      className="mt-1" 
+                    />
                   </div>
 
                   <div>
                     <Label htmlFor="tipo">Tipo de Historia</Label>
                     <Select value={tipoHistoria} onValueChange={setTipoHistoria}>
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Selecciona el tipo de historia" />
+                        <SelectValue placeholder="Selecciona el tipo" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="aventura">Aventura</SelectItem>
@@ -110,11 +116,6 @@ const NuevoGuion = () => {
                         <SelectItem value="fantasia">Fantasía</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="contexto">Contexto Adicional</Label>
-                    <Textarea id="contexto" value={contexto} onChange={e => setContexto(e.target.value)} placeholder="Describe detalles específicos, personajes, ambiente, época..." className="mt-1 min-h-24" />
                   </div>
 
                   <div>
@@ -133,54 +134,80 @@ const NuevoGuion = () => {
                     </Select>
                   </div>
 
-                  <Separator />
-
-                  <div className="flex gap-3">
-                    <Button onClick={handleGenerarGuiones} disabled={loading || !tema.trim()} className="flex-1">
-                      {loading ? <>
-                          <LoadingSpinner size="sm" className="mr-2" />
-                          Generando...
-                        </> : <>
-                          <Sparkles className="h-4 w-4 mr-2" />
-                          Generar Guiones
-                        </>}
-                    </Button>
-                    
-                    <Button variant="outline" onClick={handleLimpiar} disabled={loading}>
-                      Limpiar
-                    </Button>
+                  <div className="flex flex-col justify-end">
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleGenerarGuiones} 
+                        disabled={loading || !tema.trim()} 
+                        className="flex-1"
+                        size="sm"
+                      >
+                        {loading ? (
+                          <>
+                            <LoadingSpinner size="sm" className="mr-1" />
+                            Generando...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="h-3 w-3 mr-1" />
+                            Generar
+                          </>
+                        )}
+                      </Button>
+                      
+                      <Button variant="outline" onClick={handleLimpiar} disabled={loading} size="sm">
+                        Limpiar
+                      </Button>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
 
-              {/* Panel de Resultados */}
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5" />
-                    Guiones Generados
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {guionesGenerados.length === 0 ? <div className="text-center py-12 text-muted-foreground">
-                      <PenTool className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Los guiones generados aparecerán aquí</p>
-                      <p className="text-sm">Completa la configuración y presiona "Generar Guiones"</p>
-                    </div> : <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {guionesGenerados.map((guion, index) => <Card key={index} className="bg-background/50">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <pre className="whitespace-pre-wrap text-sm text-muted-foreground">
-                              {guion}
-                            </pre>
-                          </CardContent>
-                        </Card>)}
-                    </div>}
-                </CardContent>
-              </Card>
-            </div>
+                <div>
+                  <Label htmlFor="contexto">Contexto Adicional</Label>
+                  <Textarea 
+                    id="contexto" 
+                    value={contexto} 
+                    onChange={e => setContexto(e.target.value)} 
+                    placeholder="Describe detalles específicos, personajes, ambiente, época..." 
+                    className="mt-1 min-h-20" 
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Panel de Guiones Generados - Abajo */}
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5" />
+                  Guiones Generados
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {guionesGenerados.length === 0 ? (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <PenTool className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>Los guiones generados aparecerán aquí</p>
+                    <p className="text-sm">Completa la configuración y presiona "Generar Guiones"</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {guionesGenerados.map((guion, index) => (
+                      <Card key={index} className="bg-background/50">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <pre className="whitespace-pre-wrap text-sm text-muted-foreground">
+                            {guion}
+                          </pre>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Información del Agente */}
             <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border/50">

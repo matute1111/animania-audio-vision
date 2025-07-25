@@ -26,8 +26,8 @@ const NuevoGuion = () => {
   
   const { characters, loading: charactersLoading } = useCharacters();
   const handleGenerarGuiones = async () => {
-    if (!tema.trim()) {
-      toast.error("Por favor ingresa un tema para el guión");
+    if (!selectedCharacter) {
+      toast.error("Por favor selecciona un personaje");
       return;
     }
     setLoading(true);
@@ -162,7 +162,7 @@ const NuevoGuion = () => {
                     <div className="flex gap-2">
                       <Button 
                         onClick={handleGenerarGuiones} 
-                        disabled={loading || !tema.trim()} 
+                        disabled={loading || !selectedCharacter} 
                         className="flex-1"
                         size="sm"
                       >

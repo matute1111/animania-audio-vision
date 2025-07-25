@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { PenTool, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
+import { TrendyWords } from "@/components/TrendyWords";
 const NuevoGuion = () => {
   const [tema, setTema] = useState("");
   const [contexto, setContexto] = useState("");
@@ -48,6 +49,15 @@ const NuevoGuion = () => {
     setTipoHistoria("");
     setGuionesGenerados([]);
   };
+
+  const handleWordClick = (word: string) => {
+    const currentTema = tema.trim();
+    if (currentTema && !currentTema.toLowerCase().includes(word.toLowerCase())) {
+      setTema(currentTema + ", " + word);
+    } else if (!currentTema) {
+      setTema(word);
+    }
+  };
   return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative" style={{
       backgroundImage: `url(${spaceBanner})`,
@@ -65,10 +75,8 @@ const NuevoGuion = () => {
           </header>
           
           <div className="max-w-6xl mx-auto px-6 py-12">
-            <div className="text-center mb-12">
-              
-              
-            </div>
+            {/* Sección de Palabras Trendy */}
+            <TrendyWords onWordClick={handleWordClick} />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Panel de Configuración */}

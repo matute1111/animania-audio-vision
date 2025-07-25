@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Separator } from "@/components/ui/separator";
-import { PenTool, Sparkles, X } from "lucide-react";
+import { PenTool, Sparkles, X, ChevronUp, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
 import { TrendyWords } from "@/components/TrendyWords";
@@ -20,7 +20,7 @@ const NuevoGuion = () => {
   const [contexto, setContexto] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState("");
   const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
-  const [guionesGenerados, setGuionesGenerados] = useState<string[]>([]);
+  const [guionesGenerados, setGuionesGenerados] = useState<{id: string, content: string, minimized: boolean}[]>([]);
   const [loading, setLoading] = useState(false);
   
   const { characters, loading: charactersLoading } = useCharacters();
@@ -55,13 +55,28 @@ const NuevoGuion = () => {
         }),
       });
 
-      // Con no-cors no podemos leer la respuesta, así que simulamos el resultado
-      toast.success("Generando guiones");
-      
-      // Simulamos guiones mientras se configura el webhook
-      const nuevosGuiones = [`Guión sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`];
-      
-      setGuionesGenerados(nuevosGuiones);
+      // Handle webhook response
+      if (response.ok) {
+        const data = await response.json();
+        if (data && Array.isArray(data) && data.length > 0) {
+          const nuevosGuiones = data.map((item, index) => ({
+            id: `guion-${Date.now()}-${index}`,
+            content: item.output || "",
+            minimized: false
+          }));
+          setGuionesGenerados(nuevosGuiones);
+          toast.success("Guiones generados exitosamente");
+        }
+      } else {
+        toast.success("Generando guiones");
+        // Simulamos guiones mientras se configura el webhook
+        const nuevosGuiones = [{
+          id: `guion-${Date.now()}`,
+          content: `Guión sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`,
+          minimized: false
+        }];
+        setGuionesGenerados(nuevosGuiones);
+      }
     } catch (error) {
       console.error("Error generando guiones:", error);
       toast.error("Error al conectar con el webhook. Verifica la configuración en n8n.");
@@ -89,6 +104,26 @@ const NuevoGuion = () => {
 
   const handleRemoveTrendyWord = (wordToRemove: string) => {
     setSelectedTrendyWords(prev => prev.filter(w => w !== wordToRemove));
+  };
+
+  const handleToggleMinimize = (guionId: string) => {
+    setGuionesGenerados(prev => 
+      prev.map(guion => 
+        guion.id === guionId 
+          ? { ...guion, minimized: !guion.minimized }
+          : guion
+      )
+    );
+  };
+
+  const handleEditGuion = (guionId: string, newContent: string) => {
+    setGuionesGenerados(prev => 
+      prev.map(guion => 
+        guion.id === guionId 
+          ? { ...guion, content: newContent }
+          : guion
+      )
+    );
   };
   return <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background relative" style={{
@@ -210,17 +245,34 @@ const NuevoGuion = () => {
                     <p className="text-sm">Completa la configuración y presiona "Generar Guiones"</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+                  <div className="space-y-4">
                     {guionesGenerados.map((guion, index) => (
-                      <Card key={index} className="bg-background/50">
-                        <CardHeader className="pb-2">
+                      <Card key={guion.id} className="bg-background/50 w-full">
+                        <CardHeader className="pb-2 flex flex-row items-center justify-between">
                           <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleToggleMinimize(guion.id)}
+                            className="h-6 w-6 p-0"
+                          >
+                            {guion.minimized ? (
+                              <ChevronDown className="h-4 w-4" />
+                            ) : (
+                              <ChevronUp className="h-4 w-4" />
+                            )}
+                          </Button>
                         </CardHeader>
-                        <CardContent>
-                          <pre className="whitespace-pre-wrap text-sm text-muted-foreground">
-                            {guion}
-                          </pre>
-                        </CardContent>
+                        {!guion.minimized && (
+                          <CardContent>
+                            <Textarea
+                              value={guion.content}
+                              onChange={(e) => handleEditGuion(guion.id, e.target.value)}
+                              className="min-h-32 w-full whitespace-pre-wrap text-sm resize-none"
+                              placeholder="Contenido del guión..."
+                            />
+                          </CardContent>
+                        )}
                       </Card>
                     ))}
                   </div>

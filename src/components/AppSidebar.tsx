@@ -14,6 +14,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const mainMenuItems = [
   {
@@ -123,15 +124,19 @@ export function AppSidebar() {
             <SidebarMenu>
               {characterItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="w-full">
-                    <NavLink
-                      to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none px-2`}
-                    >
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
-                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <SidebarMenuButton asChild className="w-full">
+                        <div className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none px-2 cursor-pointer opacity-60 hover:opacity-80 transition-opacity`}>
+                          <item.icon className="h-4 w-4 flex-shrink-0" />
+                          {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
+                        </div>
+                      </SidebarMenuButton>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p>Próximamente</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

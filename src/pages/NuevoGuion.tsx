@@ -70,7 +70,7 @@ const NuevoGuion = () => {
         <AppSidebar />
         
         <main className="flex-1 relative z-10">
-          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm">
+          <header className="h-12 flex items-center border-b border-border/50 bg-card/90 backdrop-blur-sm relative z-20">
             <SidebarTrigger className="ml-4" />
           </header>
           

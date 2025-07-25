@@ -67,7 +67,7 @@ export function AppSidebar() {
     isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted";
 
   return (
-    <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon">
+    <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon" style={{ minWidth: collapsed ? '56px' : '256px', maxWidth: collapsed ? '56px' : '256px' }}>
       <SidebarContent>
         {/* Main menu items */}
         <SidebarGroup>
@@ -78,10 +78,10 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.path}
-                      className={getNavCls({ isActive: currentPath === item.path })}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden`}
                     >
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,7 +92,7 @@ export function AppSidebar() {
 
         {/* Video creation section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sm font-semibold text-sidebar-foreground/70">
+          <SidebarGroupLabel className="text-sm font-semibold text-sidebar-foreground/70 px-2 truncate">
             {!collapsed && "Nuevo Video"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -102,10 +102,10 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} ${!collapsed ? 'ml-4' : ''}`}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} ${!collapsed ? 'ml-4' : ''} flex items-center overflow-hidden`}
                     >
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -123,10 +123,10 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.path}
-                      className={getNavCls({ isActive: currentPath === item.path })}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden`}
                     >
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -142,19 +142,19 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton 
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="hover:bg-sidebar-accent"
+              className="hover:bg-sidebar-accent flex items-center overflow-hidden"
             >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              {!collapsed && <span>{theme === "dark" ? "Modo Claro" : "Modo Oscuro"}</span>}
+              <Sun className="h-4 w-4 flex-shrink-0 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-4 w-4 flex-shrink-0 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              {!collapsed && <span className="ml-2 truncate">{theme === "dark" ? "Modo Claro" : "Modo Oscuro"}</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
 
           {/* Logout Button */}
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleLogout} className="hover:bg-destructive/10 hover:text-destructive">
-              <LogOut className="h-4 w-4" />
-              {!collapsed && <span>Cerrar Sesión</span>}
+            <SidebarMenuButton onClick={handleLogout} className="hover:bg-destructive/10 hover:text-destructive flex items-center overflow-hidden">
+              <LogOut className="h-4 w-4 flex-shrink-0" />
+              {!collapsed && <span className="ml-2 truncate">Cerrar Sesión</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

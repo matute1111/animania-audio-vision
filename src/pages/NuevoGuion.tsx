@@ -460,23 +460,11 @@ const NuevoGuion = () => {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
           <DialogHeader>
-            <div className="flex items-center justify-between">
-              <DialogTitle>
-                {selectedGuionForDialog && 
-                  `Guión ${guionesGenerados.findIndex(g => g.id === selectedGuionForDialog.id) + 1}`
-                }
-              </DialogTitle>
-              {selectedGuionForDialog && (
-                <Button
-                  onClick={() => handleApproveScript(selectedGuionForDialog)}
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <Check className="h-4 w-4" />
-                  Aprobar
-                </Button>
-              )}
-            </div>
+            <DialogTitle>
+              {selectedGuionForDialog && 
+                `Guión ${guionesGenerados.findIndex(g => g.id === selectedGuionForDialog.id) + 1}`
+              }
+            </DialogTitle>
           </DialogHeader>
           <div className="flex-1 overflow-auto">
             {selectedGuionForDialog && (
@@ -494,10 +482,20 @@ const NuevoGuion = () => {
               />
             )}
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex justify-between">
             <Button variant="outline" onClick={() => setDialogOpen(false)}>
               Aceptar
             </Button>
+            {selectedGuionForDialog && (
+              <Button
+                onClick={() => handleApproveScript(selectedGuionForDialog)}
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Check className="h-4 w-4" />
+                Aprobar
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

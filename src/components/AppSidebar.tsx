@@ -1,4 +1,4 @@
-import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video } from "lucide-react";
+import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video, Volume2, Image } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import {
@@ -15,27 +15,33 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
-const menuItems = [
+const mainMenuItems = [
   {
     title: "General",
     path: "/general",
     icon: Home,
   },
+];
+
+const videoCreationItems = [
   {
-    title: "Nuevo Guión",
+    title: "Guion",
     path: "/nuevo-guion",
     icon: FileText,
   },
   {
-    title: "Nuevo Audio",
+    title: "Audio",
     path: "/nuevo-audio",
-    icon: Plus,
+    icon: Volume2,
   },
   {
-    title: "Imagen y Audio",
+    title: "Imagen",
     path: "/nuevo-video",
-    icon: Video,
+    icon: Image,
   },
+];
+
+const otherMenuItems = [
   {
     title: "Informes de agentes",
     path: "/agents",
@@ -63,13 +69,56 @@ export function AppSidebar() {
   return (
     <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon">
       <SidebarContent>
+        {/* Main menu items */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg font-bold bg-gradient-magic bg-clip-text text-transparent">
-            {!collapsed && "Historias Infinitas"}
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.path}
+                      className={getNavCls({ isActive: currentPath === item.path })}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Video creation section */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-sm font-semibold text-sidebar-foreground/70">
+            {!collapsed && "Nuevo Video"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {videoCreationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.path}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} ${!collapsed ? 'ml-4' : ''}`}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Other menu items */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {otherMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink

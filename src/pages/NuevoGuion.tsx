@@ -14,14 +14,17 @@ import { PenTool, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
 import { TrendyWords } from "@/components/TrendyWords";
+import { useCharacters } from "@/hooks/useCharacters";
 const NuevoGuion = () => {
   const [tema, setTema] = useState("");
   const [contexto, setContexto] = useState("");
   const [cantidadGuiones, setCantidadGuiones] = useState("1");
-  const [tipoHistoria, setTipoHistoria] = useState("");
+  const [selectedCharacter, setSelectedCharacter] = useState("");
   const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
   const [guionesGenerados, setGuionesGenerados] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  
+  const { characters, loading: charactersLoading } = useCharacters();
   const handleGenerarGuiones = async () => {
     if (!tema.trim()) {
       toast.error("Por favor ingresa un tema para el guión");
@@ -44,7 +47,7 @@ const NuevoGuion = () => {
           parametros: {
             tema_principal: tema,
             contexto_adicional: contexto || null,
-            tipo_historia: tipoHistoria || "general",
+            personaje_seleccionado: selectedCharacter || null,
             cantidad_solicitada: parseInt(cantidadGuiones)
           },
           configuracion: {
@@ -61,7 +64,7 @@ const NuevoGuion = () => {
       // Simulamos guiones mientras se configura el webhook
       const nuevosGuiones = Array.from({
         length: parseInt(cantidadGuiones)
-      }, (_, i) => `Guión ${i + 1} sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nTipo: ${tipoHistoria || "General"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`);
+      }, (_, i) => `Guión ${i + 1} sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`);
       
       setGuionesGenerados(nuevosGuiones);
     } catch (error) {
@@ -75,7 +78,7 @@ const NuevoGuion = () => {
     setTema("");
     setContexto("");
     setCantidadGuiones("1");
-    setTipoHistoria("");
+    setSelectedCharacter("");
     setSelectedTrendyWords([]);
     setGuionesGenerados([]);
   };
@@ -134,20 +137,17 @@ const NuevoGuion = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="tipo">Tipo de Historia</Label>
-                    <Select value={tipoHistoria} onValueChange={setTipoHistoria}>
+                    <Label htmlFor="personaje">Selección de Personaje</Label>
+                    <Select value={selectedCharacter} onValueChange={setSelectedCharacter} disabled={charactersLoading}>
                       <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Selecciona el tipo" />
+                        <SelectValue placeholder={charactersLoading ? "Cargando personajes..." : "Selecciona un personaje"} />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="aventura">Aventura</SelectItem>
-                        <SelectItem value="drama">Drama</SelectItem>
-                        <SelectItem value="comedia">Comedia</SelectItem>
-                        <SelectItem value="terror">Terror</SelectItem>
-                        <SelectItem value="ciencia-ficcion">Ciencia Ficción</SelectItem>
-                        <SelectItem value="romance">Romance</SelectItem>
-                        <SelectItem value="misterio">Misterio</SelectItem>
-                        <SelectItem value="fantasia">Fantasía</SelectItem>
+                      <SelectContent className="bg-background border border-border z-50">
+                        {characters.map((character) => (
+                          <SelectItem key={character.id} value={character.name}>
+                            {character.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>

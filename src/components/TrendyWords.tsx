@@ -85,7 +85,7 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
           {currentWords.map((word, index) => (
             <Badge
               key={`${word}-${index}`}
-              variant={index % 3 === 0 ? "default" : index % 3 === 1 ? "secondary" : "outline"}
+              variant="outline"
               className="cursor-pointer hover:scale-105 transition-transform duration-200 text-xs px-3 py-1"
               onClick={() => handleWordClick(word)}
             >

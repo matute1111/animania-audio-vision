@@ -133,7 +133,7 @@ export function AppSidebar() {
                         </div>
                       </SidebarMenuButton>
                     </TooltipTrigger>
-                    <TooltipContent side="right" className="z-[9999] bg-popover border border-border shadow-lg">
+                    <TooltipContent side="right" className="z-[99999] bg-popover border border-border shadow-2xl" sideOffset={10}>
                       <p>Próximamente</p>
                     </TooltipContent>
                   </Tooltip>

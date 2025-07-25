@@ -21,14 +21,14 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
   const [currentWords, setCurrentWords] = useState<string[]>(FALLBACK_WORDS);
   const [loading, setLoading] = useState(false);
 
-  const fetchTrendyWords = async (usePost = false) => {
+  const fetchTrendyWords = async () => {
     try {
       const response = await fetch(WEBHOOK_URL, {
-        method: usePost ? 'POST' : 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        ...(usePost && { body: JSON.stringify({}) })
+        body: JSON.stringify({})
       });
 
       if (!response.ok) {
@@ -37,24 +37,23 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
 
       const data = await response.json();
       
-      // Try different possible response formats
-      let words: string[] = [];
-      if (Array.isArray(data)) {
-        words = data;
-      } else if (data.words && Array.isArray(data.words)) {
-        words = data.words;
-      } else if (data.data && Array.isArray(data.data)) {
-        words = data.data;
-      } else {
-        throw new Error('Invalid response format');
+      // Parse the specific format: [{"keywords": "word1 (2x), word2 (3x), ..."}]
+      if (Array.isArray(data) && data.length > 0 && data[0].keywords) {
+        const keywordsString = data[0].keywords;
+        
+        // Split by comma and clean each word
+        const words = keywordsString
+          .split(',')
+          .map((word: string) => word.trim().replace(/\s*\(\d+x\)$/, '').trim())
+          .filter((word: string) => word.length > 0);
+        
+        if (words.length > 0) {
+          setCurrentWords(words);
+          return true;
+        }
       }
-
-      if (words.length > 0) {
-        setCurrentWords(words);
-        return true;
-      } else {
-        throw new Error('No words received');
-      }
+      
+      throw new Error('Invalid response format or no keywords found');
     } catch (error) {
       console.error('Error fetching trendy words:', error);
       return false;
@@ -65,18 +64,11 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
     const loadInitialWords = async () => {
       setLoading(true);
       
-      // Try GET first
-      const getSuccess = await fetchTrendyWords(false);
+      const success = await fetchTrendyWords();
       
-      if (!getSuccess) {
-        // If GET fails, try POST
-        const postSuccess = await fetchTrendyWords(true);
-        
-        if (!postSuccess) {
-          // If both fail, use fallback
-          setCurrentWords(FALLBACK_WORDS);
-          toast.error("No se pudieron cargar palabras del servidor, usando palabras por defecto");
-        }
+      if (!success) {
+        setCurrentWords(FALLBACK_WORDS);
+        toast.error("No se pudieron cargar palabras del servidor, usando palabras por defecto");
       }
       
       setLoading(false);
@@ -89,22 +81,13 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
     setLoading(true);
     
     try {
-      // Try GET first
-      const getSuccess = await fetchTrendyWords(false);
+      const success = await fetchTrendyWords();
       
-      if (!getSuccess) {
-        // If GET fails, try POST
-        const postSuccess = await fetchTrendyWords(true);
-        
-        if (postSuccess) {
-          toast.success("Palabras trendy actualizadas (POST)");
-        } else {
-          // If both fail, use fallback
-          setCurrentWords(FALLBACK_WORDS);
-          toast.error("Error al actualizar palabras trendy, usando palabras por defecto");
-        }
-      } else {
+      if (success) {
         toast.success("Palabras trendy actualizadas");
+      } else {
+        setCurrentWords(FALLBACK_WORDS);
+        toast.error("Error al actualizar palabras trendy, usando palabras por defecto");
       }
     } catch (error) {
       toast.error("Error al actualizar palabras trendy");

@@ -37,10 +37,26 @@ export const TrendyWords = ({ onWordClick }: TrendyWordsProps) => {
 
       const data = await response.json();
       
-      // Parse the specific format: [{"keywords": "word1 (2x), word2 (3x), ..."}]
+      // Parse the actual format from n8n webhook
+      // Response format: {"keywords_string": [{"keywords": "keywords_string"}]}
+      let keywordsString = '';
+      
       if (Array.isArray(data) && data.length > 0 && data[0].keywords) {
-        const keywordsString = data[0].keywords;
-        
+        // Format: [{"keywords": "word1 (2x), word2 (3x), ..."}]
+        keywordsString = data[0].keywords;
+      } else if (typeof data === 'object' && data !== null) {
+        // Format: {"keywords_string": [{"keywords": "keywords_string"}]}
+        const keys = Object.keys(data);
+        if (keys.length > 0) {
+          const firstKey = keys[0];
+          const value = data[firstKey];
+          if (Array.isArray(value) && value.length > 0 && value[0].keywords) {
+            keywordsString = value[0].keywords;
+          }
+        }
+      }
+      
+      if (keywordsString) {
         // Split by comma and clean each word
         const words = keywordsString
           .split(',')

@@ -125,16 +125,6 @@ const NuevoGuion = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                  <div>
-                    <Label htmlFor="tema">Tema Principal *</Label>
-                    <Input 
-                      id="tema" 
-                      value={tema} 
-                      onChange={e => setTema(e.target.value)} 
-                      placeholder="Ej: Aventura espacial..." 
-                      className="mt-1" 
-                    />
-                  </div>
 
                   <div>
                     <Label htmlFor="personaje">Selección de Personaje</Label>

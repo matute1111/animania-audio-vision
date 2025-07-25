@@ -14,6 +14,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+import logoHistoriasInfinitas from "@/assets/logo-historias-infinitas.png";
 
 const mainMenuItems = [
   {
@@ -69,6 +70,25 @@ export function AppSidebar() {
   return (
     <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon" style={{ minWidth: collapsed ? '56px' : '256px', maxWidth: collapsed ? '56px' : '256px' }}>
       <SidebarContent>
+        {/* Logo section */}
+        <div className="p-4 border-b border-sidebar-border">
+          <div className="flex items-center justify-center">
+            {!collapsed ? (
+              <img 
+                src={logoHistoriasInfinitas} 
+                alt="Historias Infinitas" 
+                className="h-12 w-auto object-contain"
+              />
+            ) : (
+              <img 
+                src={logoHistoriasInfinitas} 
+                alt="Historias Infinitas" 
+                className="h-8 w-8 object-contain"
+              />
+            )}
+          </div>
+        </div>
+
         {/* Main menu items */}
         <SidebarGroup>
           <SidebarGroupContent>

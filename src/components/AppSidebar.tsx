@@ -1,4 +1,4 @@
-import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video, Volume2, Image } from "lucide-react";
+import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video, Volume2, Image, User } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import {
@@ -20,6 +20,14 @@ const mainMenuItems = [
     title: "General",
     path: "/general",
     icon: Home,
+  },
+];
+
+const characterItems = [
+  {
+    title: "Nuevo Personaje",
+    path: "/nuevo-personaje",
+    icon: User,
   },
 ];
 
@@ -93,6 +101,27 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {mainMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild className="w-full">
+                    <NavLink
+                      to={item.path}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none px-2`}
+                    >
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Character creation section */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {characterItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild className="w-full">
                     <NavLink

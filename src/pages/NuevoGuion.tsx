@@ -18,7 +18,6 @@ import { useCharacters } from "@/hooks/useCharacters";
 const NuevoGuion = () => {
   const [tema, setTema] = useState("");
   const [contexto, setContexto] = useState("");
-  const [cantidadGuiones, setCantidadGuiones] = useState("1");
   const [selectedCharacter, setSelectedCharacter] = useState("");
   const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
   const [guionesGenerados, setGuionesGenerados] = useState<string[]>([]);
@@ -48,7 +47,7 @@ const NuevoGuion = () => {
             tema_principal: tema,
             contexto_adicional: contexto || null,
             personaje_seleccionado: selectedCharacter || null,
-            cantidad_solicitada: parseInt(cantidadGuiones)
+            cantidad_solicitada: 1
           },
           configuracion: {
             idioma: "es",
@@ -62,9 +61,7 @@ const NuevoGuion = () => {
       toast.success("Generando guiones");
       
       // Simulamos guiones mientras se configura el webhook
-      const nuevosGuiones = Array.from({
-        length: parseInt(cantidadGuiones)
-      }, (_, i) => `Guión ${i + 1} sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`);
+      const nuevosGuiones = [`Guión sobre "${tema}"\n\nSolicitud enviada al webhook de n8n.\nTema: ${tema}\nContexto: ${contexto || "Sin contexto específico"}\nPersonaje: ${selectedCharacter || "Sin personaje seleccionado"}\n\n[El contenido real vendrá del webhook cuando esté configurado correctamente]`];
       
       setGuionesGenerados(nuevosGuiones);
     } catch (error) {
@@ -77,7 +74,6 @@ const NuevoGuion = () => {
   const handleLimpiar = () => {
     setTema("");
     setContexto("");
-    setCantidadGuiones("1");
     setSelectedCharacter("");
     setSelectedTrendyWords([]);
     setGuionesGenerados([]);
@@ -124,7 +120,7 @@ const NuevoGuion = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
                   <div>
                     <Label htmlFor="personaje">Selección de Personaje</Label>
@@ -138,22 +134,6 @@ const NuevoGuion = () => {
                             {character.name}
                           </SelectItem>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="cantidad">Cantidad de Guiones</Label>
-                    <Select value={cantidadGuiones} onValueChange={setCantidadGuiones}>
-                      <SelectTrigger className="mt-1">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">1 Guión</SelectItem>
-                        <SelectItem value="2">2 Guiones</SelectItem>
-                        <SelectItem value="3">3 Guiones</SelectItem>
-                        <SelectItem value="5">5 Guiones</SelectItem>
-                        <SelectItem value="10">10 Guiones</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

@@ -27,12 +27,28 @@ const NuevoGuion = () => {
     }
     setLoading(true);
     try {
-      // Aquí conectarás con tu LLM entrenada
-      // Por ahora simulo la respuesta
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const nuevosGuiones = Array.from({
-        length: parseInt(cantidadGuiones)
-      }, (_, i) => `Guión ${i + 1} sobre "${tema}":\n\nEste es un guión de ejemplo generado por tu agente LLM entrenado. El tema principal es "${tema}" con contexto adicional: ${contexto || "Sin contexto específico"}.\n\nTipo de historia: ${tipoHistoria || "General"}\n\n[Aquí iría el contenido completo del guión generado por tu LLM...]`);
+      const response = await fetch("https://matiasalbaca.app.n8n.cloud/webhook/Guiones", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tema,
+          contexto,
+          cantidadGuiones: parseInt(cantidadGuiones),
+          tipoHistoria
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      // Asumiendo que el webhook devuelve un array de guiones o un objeto con guiones
+      const nuevosGuiones = data.guiones || [data.guion] || [`Guión generado: ${data.content || JSON.stringify(data)}`];
+      
       setGuionesGenerados(nuevosGuiones);
       toast.success(`${cantidadGuiones} guión(es) generado(s) exitosamente`);
     } catch (error) {

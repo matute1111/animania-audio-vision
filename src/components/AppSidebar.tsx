@@ -94,10 +94,10 @@ export function AppSidebar() {
             <SidebarMenu>
               {mainMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="w-full">
                     <NavLink
                       to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden`}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none px-2`}
                     >
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
@@ -118,13 +118,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {videoCreationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="w-full">
                     <NavLink
                       to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} ${!collapsed ? 'ml-4' : ''} flex items-center overflow-hidden`}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none ${!collapsed ? 'pl-6 pr-2' : 'px-2'}`}
                     >
-                      <item.icon className="h-4 w-4 flex-shrink-0" />
-                      {!collapsed && <span className="ml-2 truncate">{item.title}</span>}
+                      <item.icon className="h-3 w-3 flex-shrink-0" />
+                      {!collapsed && <span className="ml-2 truncate text-sm">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -139,10 +139,10 @@ export function AppSidebar() {
             <SidebarMenu>
               {otherMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="w-full">
                     <NavLink
                       to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden`}
+                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none px-2`}
                     >
                       <item.icon className="h-4 w-4 flex-shrink-0" />
                       {!collapsed && <span className="ml-2 truncate">{item.title}</span>}

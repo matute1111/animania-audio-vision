@@ -45,7 +45,7 @@ const NuevoGuion = () => {
           },
           parametros: {
             personaje_seleccionado: selectedCharacter,
-            palabras_contexto: `${selectedTrendyWords.join(', ')} ${contexto}`.trim().replace(/\s+/g, ' ').split(/[,\s]+/).filter(word => word.length > 0).join(', ')
+            palabras_contexto: `${selectedTrendyWords.join('; ')}${selectedTrendyWords.length > 0 && contexto ? '; ' : ''}${contexto}`.trim()
           },
           configuracion: {
             idioma: "es",

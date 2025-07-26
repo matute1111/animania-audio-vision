@@ -1,4 +1,4 @@
-import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video, Volume2, Image, User } from "lucide-react";
+import { Home, Users, LogOut, Sun, Moon, Plus, FileText, Video, Volume2, Image, User, Sliders } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import {
@@ -47,6 +47,11 @@ const videoCreationItems = [
     title: "Imagen",
     path: "/nuevo-video",
     icon: Image,
+  },
+  {
+    title: "Post Producción",
+    path: "/post-produccion",
+    icon: Sliders,
   },
 ];
 
@@ -152,15 +157,31 @@ export function AppSidebar() {
             <SidebarMenu>
               {videoCreationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="w-full">
-                    <NavLink
-                      to={item.path}
-                      className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none ${!collapsed ? 'pl-6 pr-2' : 'px-2'}`}
-                    >
-                      <item.icon className="h-3 w-3 flex-shrink-0" />
-                      {!collapsed && <span className="ml-2 truncate text-sm">{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
+                  {item.title === "Post Producción" ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <SidebarMenuButton asChild className="w-full">
+                          <div className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none ${!collapsed ? 'pl-6 pr-2' : 'px-2'} cursor-pointer opacity-60 hover:opacity-80 transition-opacity`}>
+                            <item.icon className="h-3 w-3 flex-shrink-0" />
+                            {!collapsed && <span className="ml-2 truncate text-sm">{item.title}</span>}
+                          </div>
+                        </SidebarMenuButton>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="z-[99999] bg-popover border border-border shadow-2xl" sideOffset={10}>
+                        <p>Próximamente</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <SidebarMenuButton asChild className="w-full">
+                      <NavLink
+                        to={item.path}
+                        className={`${getNavCls({ isActive: currentPath === item.path })} flex items-center overflow-hidden w-full max-w-none ${!collapsed ? 'pl-6 pr-2' : 'px-2'}`}
+                      >
+                        <item.icon className="h-3 w-3 flex-shrink-0" />
+                        {!collapsed && <span className="ml-2 truncate text-sm">{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

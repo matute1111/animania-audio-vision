@@ -17,6 +17,7 @@ import { PenTool, Sparkles, X, ChevronUp, ChevronDown, Maximize2, Check, Chevron
 import { toast } from "sonner";
 import spaceBanner from "@/assets/space-banner.jpg";
 import { TrendyWords } from "@/components/TrendyWords";
+import { TimelineSteps } from "@/components/TimelineSteps";
 import { useCharacters } from "@/hooks/useCharacters";
 import { useVideoCreationFlow } from "@/hooks/useVideoCreationFlow";
 interface Guion {
@@ -225,6 +226,9 @@ const NuevoGuion = () => {
           </header>
           
           <div className="max-w-6xl mx-auto px-6 py-12">
+            {/* Timeline Steps */}
+            <TimelineSteps />
+            
             {/* Sección de Palabras Trendy */}
             <TrendyWords onWordClick={handleWordClick} selectedWords={selectedTrendyWords} />
 

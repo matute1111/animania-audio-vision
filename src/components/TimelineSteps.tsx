@@ -50,15 +50,15 @@ export function TimelineSteps() {
 
   return (
     <TooltipProvider>
-      <div className="mb-8">
-        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6">
-          <h3 className="text-sm font-medium text-muted-foreground mb-4 text-center">
+      <div className="mb-6">
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-4">
+          <h3 className="text-xs font-medium text-muted-foreground mb-3 text-center">
             Proceso de Creación de Video
           </h3>
           
           <div className="flex items-center justify-between relative">
             {/* Progress line */}
-            <div className="absolute top-6 left-0 right-0 h-0.5 bg-border/30 -z-10">
+            <div className="absolute top-4 left-0 right-0 h-0.5 bg-border/30 -z-10">
               <div 
                 className="h-full bg-primary transition-all duration-500 ease-in-out"
                 style={{ 
@@ -78,13 +78,13 @@ export function TimelineSteps() {
                     <TooltipTrigger asChild>
                       <div className="flex flex-col items-center group cursor-help">
                         <div className={`
-                          w-12 h-12 rounded-full border-2 flex items-center justify-center
+                          w-8 h-8 rounded-full border-2 flex items-center justify-center
                           transition-all duration-300 bg-muted/50 border-border/50
                           opacity-60
                         `}>
-                          <Icon className="h-5 w-5 text-muted-foreground" />
+                          <Icon className="h-3 w-3 text-muted-foreground" />
                         </div>
-                        <span className="text-xs font-medium mt-2 text-muted-foreground">
+                        <span className="text-xs font-medium mt-1 text-muted-foreground">
                           {step.title}
                         </span>
                       </div>
@@ -99,7 +99,7 @@ export function TimelineSteps() {
               return (
                 <div key={step.id} className="flex flex-col items-center group">
                   <div className={`
-                    w-12 h-12 rounded-full border-2 flex items-center justify-center
+                    w-8 h-8 rounded-full border-2 flex items-center justify-center
                     transition-all duration-300
                     ${isActive 
                       ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/25' 
@@ -110,13 +110,13 @@ export function TimelineSteps() {
                     ${!step.disabled && 'group-hover:scale-105'}
                   `}>
                     {isCompleted ? (
-                      <Check className="h-5 w-5" />
+                      <Check className="h-3 w-3" />
                     ) : (
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-3 w-3" />
                     )}
                   </div>
                   <span className={`
-                    text-xs font-medium mt-2 transition-colors duration-300
+                    text-xs font-medium mt-1 transition-colors duration-300
                     ${isActive 
                       ? 'text-primary' 
                       : isCompleted 

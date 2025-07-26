@@ -335,6 +335,14 @@ const NuevoGuion = () => {
                           <CardTitle className="text-sm">Guión {index + 1}</CardTitle>
                           <div className="flex items-center gap-1">
                             <Button
+                              onClick={() => handleApproveScript(guion)}
+                              size="sm"
+                              className="flex items-center gap-2 h-6 px-2"
+                            >
+                              <Check className="h-3 w-3" />
+                              Aprobar
+                            </Button>
+                            <Button
                               variant="ghost"
                               size="sm"
                               onClick={() => handleOpenDialog(guion)}
@@ -486,16 +494,6 @@ const NuevoGuion = () => {
             <Button variant="outline" onClick={() => setDialogOpen(false)}>
               Aceptar
             </Button>
-            {selectedGuionForDialog && (
-              <Button
-                onClick={() => handleApproveScript(selectedGuionForDialog)}
-                size="sm"
-                className="flex items-center gap-2"
-              >
-                <Check className="h-4 w-4" />
-                Aprobar
-              </Button>
-            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

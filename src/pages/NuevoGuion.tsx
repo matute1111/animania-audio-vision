@@ -40,6 +40,7 @@ const NuevoGuion = () => {
   const [contexto, setContexto] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState("");
   const [selectedTrendyWords, setSelectedTrendyWords] = useState<string[]>([]);
+  const [cantidadGuiones, setCantidadGuiones] = useState("1");
   const [guionesGenerados, setGuionesGenerados] = useState<Guion[]>([]);
   const [guionesAprobados, setGuionesAprobados] = useState<GuionAprobado[]>([]);
   const [loading, setLoading] = useState(false);
@@ -82,7 +83,8 @@ const NuevoGuion = () => {
           },
           parametros: {
             personaje_seleccionado: selectedCharacter,
-            palabras_contexto: `${selectedTrendyWords.join('; ')}${selectedTrendyWords.length > 0 && contexto ? '; ' : ''}${contexto}`.trim()
+            palabras_contexto: `${selectedTrendyWords.join('; ')}${selectedTrendyWords.length > 0 && contexto ? '; ' : ''}${contexto}`.trim(),
+            cantidad_guiones: parseInt(cantidadGuiones)
           },
           configuracion: {
             idioma: "es",
@@ -131,6 +133,7 @@ const NuevoGuion = () => {
     setContexto("");
     setSelectedCharacter("");
     setSelectedTrendyWords([]);
+    setCantidadGuiones("1");
     setGuionesGenerados([]);
   };
 
@@ -236,7 +239,7 @@ const NuevoGuion = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
 
                   <div>
                     <Label htmlFor="personaje">Selección de Personaje</Label>
@@ -250,6 +253,21 @@ const NuevoGuion = () => {
                             {character.name}
                           </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="cantidad">Cantidad de Guiones</Label>
+                    <Select value={cantidadGuiones} onValueChange={setCantidadGuiones}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Selecciona cantidad" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-background border border-border z-50">
+                        <SelectItem value="1">1 guión</SelectItem>
+                        <SelectItem value="5">5 guiones</SelectItem>
+                        <SelectItem value="10">10 guiones</SelectItem>
+                        <SelectItem value="15">15 guiones</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

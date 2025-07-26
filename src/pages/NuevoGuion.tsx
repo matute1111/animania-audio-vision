@@ -230,7 +230,16 @@ const NuevoGuion = () => {
             <TimelineSteps />
             
             {/* Sección de Palabras Trendy */}
-            <TrendyWords onWordClick={handleWordClick} selectedWords={selectedTrendyWords} />
+            <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">
+              <CardHeader>
+                <CardTitle>
+                  Guión
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TrendyWords onWordClick={handleWordClick} selectedWords={selectedTrendyWords} />
+              </CardContent>
+            </Card>
 
             {/* Panel de Configuración - Horizontal */}
             <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">

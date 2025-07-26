@@ -229,14 +229,12 @@ const NuevoGuion = () => {
             {/* Timeline Steps */}
             <TimelineSteps />
             
+            {/* Título Guión */}
+            <h2 className="text-2xl font-bold mb-6">Guión</h2>
+            
             {/* Sección de Palabras Trendy */}
             <Card className="bg-card/50 backdrop-blur-sm border-border/50 mb-8">
-              <CardHeader>
-                <CardTitle>
-                  Guión
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <TrendyWords onWordClick={handleWordClick} selectedWords={selectedTrendyWords} />
               </CardContent>
             </Card>

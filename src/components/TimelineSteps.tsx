@@ -52,9 +52,9 @@ export function TimelineSteps() {
     <TooltipProvider>
       <div className="mb-6">
         <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-4 max-w-md mx-auto">
-          <div className="flex items-center justify-between relative px-4">
+          <div className="grid grid-cols-4 gap-6 relative">
             {/* Progress line */}
-            <div className="absolute top-4 left-8 right-8 h-0.5 bg-border/30 -z-10">
+            <div className="absolute top-4 left-6 right-6 h-0.5 bg-border/30 -z-10">
               <div 
                 className="h-full bg-primary transition-all duration-500 ease-in-out"
                 style={{ 
